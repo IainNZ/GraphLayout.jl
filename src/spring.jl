@@ -1,5 +1,5 @@
 
-function layout_spring_adj{T}(adj_matrix::Array{T,2}; C=2.0, MAXITER=50, INITTEMP=2.0)
+function layout_spring_adj{T}(adj_matrix::Array{T,2}; C=2.0, MAXITER=100, INITTEMP=2.0)
     # Use the spring/repulsion model of Fruchterman and Reingold (1991):
     # Attractive force:  f_a(d) =  d^2 / k
     #  Repulsive force:  f_r(d) = -k^2 / d
@@ -39,12 +39,13 @@ function layout_spring_adj{T}(adj_matrix::Array{T,2}; C=2.0, MAXITER=50, INITTEM
                 d_x = locs_x[j] - locs_x[i]
                 d_y = locs_y[j] - locs_y[i]
                 d   = sqrt(d_x^2 + d_y^2)
-                if adj_matrix[i,j] != zero(eltype(adj_matrix))
+                if adj_matrix[i,j] != zero(eltype(adj_matrix)) || adj_matrix[j,i] != zero(eltype(adj_matrix))
                     # F = d^2 / K - K^2 / d
-                    F_d = d / K - K^2 / d^2
+                    F_d = d / K - K^2 / d^2 
                 else
-                    # F = d^2 / K
-                    F_d = d / K
+                    # Just repulsive
+                    # F = -K^2 / d^
+                    F_d = -K^2 / d^2
                 end
                 # d  /          sin θ = d_y/d = fy/F  
                 # F /| dy fy    -> fy = F*d_y/d
@@ -61,8 +62,12 @@ function layout_spring_adj{T}(adj_matrix::Array{T,2}; C=2.0, MAXITER=50, INITTEM
         TEMP = INITTEMP / iter
         # Now apply them, but limit to temperature
         for i = 1:N
-            locs_x[i] += sign(force_x[i]) * min(abs(force_x[i]),TEMP)
-            locs_y[i] += sign(force_y[i]) * min(abs(force_y[i]),TEMP)
+            force_mag  = sqrt(force_x[i]^2 + force_y[i]^2)
+            scale      = min(force_mag, TEMP)/force_mag
+            locs_x[i] += force_x[i] * scale
+            #locs_x[i]  = max(-1.0, min(locs_x[i], +1.0))
+            locs_y[i] += force_y[i] * scale
+            #locs_y[i]  = max(-1.0, min(locs_y[i], +1.0))
         end
     end
     
