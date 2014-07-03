@@ -5,10 +5,6 @@ Graph layout algorithms in pure Julia. Currently only has the spring-based metho
 
 If you have [Compose.jl](https://github.com/dcjones/Compose.jl) installed you can also plot the resulting graphs:
 
-![Pentagon](https://rawgit.com/IainNZ/GraphLayout.jl/master/test/pentagon.svg)
-
-![Random](https://rawgit.com/IainNZ/GraphLayout.jl/master/test/random.svg)
-
 ![Gadfly](https://rawgit.com/IainNZ/GraphLayout.jl/master/example/gadfly.svg)
 
 MIT License. Copyright (c) 2014 Iain Dunning
