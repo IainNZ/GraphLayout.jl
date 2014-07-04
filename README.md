@@ -7,4 +7,8 @@ If you have [Compose.jl](https://github.com/dcjones/Compose.jl) installed you ca
 
 ![Gadfly](https://rawgit.com/IainNZ/GraphLayout.jl/master/example/gadfly.svg)
 
+![Pentagon](https://rawgit.com/IainNZ/GraphLayout.jl/master/test/pentagon.svg)
+
+![Random](https://rawgit.com/IainNZ/GraphLayout.jl/master/test/random.svg)
+
 MIT License. Copyright (c) 2014 Iain Dunning

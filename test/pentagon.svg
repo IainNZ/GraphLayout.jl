@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.2"
+     width="101.6mm" height="101.6mm" viewBox="0 0 101.6 101.6"
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.3"
+>
+<g stroke-width="2" stroke="#BBBBBB" id="fig-67364ce4e1144e40a7055b71eda46ee6-element-1">
+  <path d="M55.99,93.13 L 15.71 17.54"/>
+  <path d="M55.99,93.13 L 8.47 70.3"/>
+  <path d="M55.99,93.13 L 67.61 8.47"/>
+  <path d="M55.99,93.13 L 93.13 55.14"/>
+  <path d="M15.71,17.54 L 55.99 93.13"/>
+  <path d="M15.71,17.54 L 8.47 70.3"/>
+  <path d="M15.71,17.54 L 67.61 8.47"/>
+  <path d="M15.71,17.54 L 93.13 55.14"/>
+  <path d="M8.47,70.3 L 55.99 93.13"/>
+  <path d="M8.47,70.3 L 15.71 17.54"/>
+  <path d="M8.47,70.3 L 67.61 8.47"/>
+  <path d="M8.47,70.3 L 93.13 55.14"/>
+  <path d="M67.61,8.47 L 55.99 93.13"/>
+  <path d="M67.61,8.47 L 15.71 17.54"/>
+  <path d="M67.61,8.47 L 8.47 70.3"/>
+  <path d="M67.61,8.47 L 93.13 55.14"/>
+  <path d="M93.13,55.14 L 55.99 93.13"/>
+  <path d="M93.13,55.14 L 15.71 17.54"/>
+  <path d="M93.13,55.14 L 8.47 70.3"/>
+  <path d="M93.13,55.14 L 67.61 8.47"/>
+</g>
+<g stroke="#BBBBBB" fill="#AAAAFF" id="fig-67364ce4e1144e40a7055b71eda46ee6-element-2">
+  <circle cx="55.99" cy="93.13" r="4.73"/>
+  <circle cx="15.71" cy="17.54" r="4.73"/>
+  <circle cx="8.47" cy="70.3" r="4.73"/>
+  <circle cx="67.61" cy="8.47" r="4.73"/>
+  <circle cx="93.13" cy="55.14" r="4.73"/>
+</g>
+<g font-size="4" stroke="none" fill="#000000" id="fig-67364ce4e1144e40a7055b71eda46ee6-element-3">
+</g>
+</svg>

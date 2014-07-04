@@ -71,13 +71,14 @@ function layout_spring_adj{T}(adj_matrix::Array{T,2}; C=2.0, MAXITER=100, INITTE
         end
     end
     
-    # Calculate center of locations, then shift it so it sits in middle
-    locs_x .-= mean(locs_x)
-    locs_y .-= mean(locs_y)
-
-    # Calculate maximimum coordinate so we can scale back to [-1,+1]^2
-    locs_x ./= maximum(abs(locs_x))
-    locs_y ./= maximum(abs(locs_y))
+    # Scale to unit square
+    min_x, max_x = minimum(locs_x), maximum(locs_x)
+    min_y, max_y = minimum(locs_y), maximum(locs_y)
+    function scaler(z, a, b)
+        2.0*((z - a)/(b - a)) - 1.0
+    end
+    map!(z -> scaler(z, min_x, max_x), locs_x)
+    map!(z -> scaler(z, min_y, max_y), locs_y)
 
     return locs_x,locs_y
 end

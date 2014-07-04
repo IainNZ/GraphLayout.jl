@@ -3,7 +3,8 @@ using Compose
 function draw_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2}, 
     locs_x::Vector{T}, locs_y::Vector{T};
-    FILENAME="graph.svg")
+    labels::Vector={},
+    filename::String="graph.svg")
     
     # draw_layout_adj
     # Given an adjacency matrix and two vectors of X and Y coordinates, draw
@@ -14,18 +15,23 @@ function draw_layout_adj{S, T<:Real}(
     #                   but currently no sense of magnitude
     #  locs_x, locs_y   Locations of the nodes. Can be any units you want, 
     #                   but will be normalized and centered anyway
-    #  FILENAME         Output filename for SVG
+    #  labels           Optional. Labels for the vertices.
+    #  filename         Optional. Output filename for SVG
 
     length(locs_x) != length(locs_y) && error("Vectors must be same length")
     const N = length(locs_x)
+    if length(labels) != N && length(labels) != 0
+        error("Must have one label per node (or none)")
+    end
 
-    # Calculate center of locations, then shift it so it sits in middle
-    locs_x .-= mean(locs_x)
-    locs_y .-= mean(locs_y)
-
-    # Calculate maximimum coordinate so we can scale back to [-1,+1]^2
-    locs_x ./= maximum(abs(locs_x))
-    locs_y ./= maximum(abs(locs_y))
+    # Scale to unit square
+    min_x, max_x = minimum(locs_x), maximum(locs_x)
+    min_y, max_y = minimum(locs_y), maximum(locs_y)
+    function scaler(z, a, b)
+        2.0*((z - a)/(b - a)) - 1.0
+    end
+    map!(z -> scaler(z, min_x, max_x), locs_x)
+    map!(z -> scaler(z, min_y, max_y), locs_y)
 
     # Create lines
     lines = {}
@@ -41,10 +47,16 @@ function draw_layout_adj{S, T<:Real}(
     # Create nodes
     nodes = [circle(locs_x[i],locs_y[i],0.25/sqrt(N)) for i=1:N]
 
-    draw(   SVG(FILENAME, 4inch, 4inch), 
+    # Create labels (if wanted)
+    texts = length(labels) == N ?
+        [text(locs_x[i],locs_y[i],labels[i],hcenter,vcenter) for i=1:N] : {}
+
+    draw(   SVG(filename, 4inch, 4inch), 
             compose(
                 context(units=UnitBox(-1.2,-1.2,+2.4,+2.4)),
-                nodes...,  lines..., fill("red"), stroke("black"), linewidth(10.0/N)
+                compose(context(), texts..., fill("#000000"), stroke(nothing), fontsize(4.0)),
+                compose(context(), nodes..., fill("#AAAAFF"), stroke("#BBBBBB")),
+                compose(context(), lines..., stroke("#BBBBBB"), linewidth(10.0/N))
             )
         )
 end
