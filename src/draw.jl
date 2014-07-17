@@ -4,7 +4,7 @@ function draw_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2}, 
     locs_x::Vector{T}, locs_y::Vector{T};
     labels::Vector={},
-    filename::String="graph.svg")
+    filename::String="")
     
     # draw_layout_adj
     # Given an adjacency matrix and two vectors of X and Y coordinates, draw
@@ -16,7 +16,8 @@ function draw_layout_adj{S, T<:Real}(
     #  locs_x, locs_y   Locations of the nodes. Can be any units you want, 
     #                   but will be normalized and centered anyway
     #  labels           Optional. Labels for the vertices.
-    #  filename         Optional. Output filename for SVG
+    #  filename         Optional. Output filename for SVG. If blank, just
+    #                   tries to draw it anyway, which will display in IJulia
 
     length(locs_x) != length(locs_y) && error("Vectors must be same length")
     const N = length(locs_x)
@@ -51,7 +52,7 @@ function draw_layout_adj{S, T<:Real}(
     texts = length(labels) == N ?
         [text(locs_x[i],locs_y[i],labels[i],hcenter,vcenter) for i=1:N] : {}
 
-    draw(   SVG(filename, 4inch, 4inch), 
+    draw(   filename == "" ? SVG(4inch, 4inch) : SVG(filename, 4inch, 4inch),  
             compose(
                 context(units=UnitBox(-1.2,-1.2,+2.4,+2.4)),
                 compose(context(), texts..., fill("#000000"), stroke(nothing), fontsize(4.0)),
