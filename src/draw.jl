@@ -34,19 +34,40 @@ function draw_layout_adj{S, T<:Real}(
     map!(z -> scaler(z, min_x, max_x), locs_x)
     map!(z -> scaler(z, min_y, max_y), locs_y)
 
-    # Create lines
+    # Determine sizes
+    const NODESIZE    = 0.25/sqrt(N)
+    const LINEWIDTH   = 3.0/sqrt(N)
+    const ARROWLENGTH = LINEWIDTH/10
+
+    # Create lines and arrow heads
     lines = {}
     for i = 1:N
         for j = 1:N
             i == j && continue
             if adj_matrix[i,j] != zero(eltype(adj_matrix))
-                push!(lines, line([(locs_x[i],locs_y[i]), (locs_x[j],locs_y[j])]))
+                Δx = locs_x[j] - locs_x[i]
+                Δy = locs_y[j] - locs_y[i]
+                d  = sqrt(Δx^2 + Δy^2)
+                θ  = atan2(Δy,Δx)
+                endx  = locs_x[i] + (d-NODESIZE)*1.00*cos(θ)
+                endy  = locs_y[i] + (d-NODESIZE)*1.00*sin(θ)
+                arr1x = endx - ARROWLENGTH*cos(θ+20.0/180.0*π)
+                arr1y = endy - ARROWLENGTH*sin(θ+20.0/180.0*π)
+                arr2x = endx - ARROWLENGTH*cos(θ-20.0/180.0*π)
+                arr2y = endy - ARROWLENGTH*sin(θ-20.0/180.0*π)
+                push!(lines, 
+                    compose(
+                        context(),
+                        line([(locs_x[i], locs_y[i]), (endx, endy)]),
+                        line([(arr1x, arr1y), (endx, endy)]),
+                        line([(arr2x, arr2y), (endx, endy)])
+                    ))
             end
         end
     end
 
     # Create nodes
-    nodes = [circle(locs_x[i],locs_y[i],0.25/sqrt(N)) for i=1:N]
+    nodes = [circle(locs_x[i],locs_y[i],NODESIZE) for i=1:N]
 
     # Create labels (if wanted)
     texts = length(labels) == N ?
@@ -57,7 +78,7 @@ function draw_layout_adj{S, T<:Real}(
                 context(units=UnitBox(-1.2,-1.2,+2.4,+2.4)),
                 compose(context(), texts..., fill("#000000"), stroke(nothing), fontsize(4.0)),
                 compose(context(), nodes..., fill("#AAAAFF"), stroke("#BBBBBB")),
-                compose(context(), lines..., stroke("#BBBBBB"), linewidth(10.0/N))
+                compose(context(), lines..., stroke("#BBBBBB"), linewidth(LINEWIDTH))
             )
         )
 end
