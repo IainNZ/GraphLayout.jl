@@ -3,6 +3,10 @@ module GraphLayout
     export layout_spring_adj
     include("spring.jl")
 
+    # Stress majorization layout algorithms
+    export layout_stressmajorize_adj
+    include("stress.jl")
+
     # Optional plotting features using Compose
     export draw_layout_adj
     try
