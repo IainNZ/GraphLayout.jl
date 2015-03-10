@@ -9,7 +9,8 @@ function draw_layout_adj{S, T<:Real}(
     nodefillc::String="#AAAAFF",
     nodestrokec::String="#BBBBBB",
     edgestrokec::String="#BBBBBB",
-    labelsize::Real=4.0)
+    labelsize::Real=4.0,
+    arrowlengthfrac::Real=0.1)
     
     # draw_layout_adj
     # Given an adjacency matrix and two vectors of X and Y coordinates, draw
@@ -26,6 +27,7 @@ function draw_layout_adj{S, T<:Real}(
     #  nodefillc        Color to fill the nodes with
     #  nodestrokec      Color for the nodes stroke
     #  edgestrokec      Color for the edge strokes
+    #  arrowlengthfrac  Fraction of line length to use for arrows set to 0 for no arrows
 
     length(locs_x) != length(locs_y) && error("Vectors must be same length")
     const N = length(locs_x)
@@ -45,7 +47,7 @@ function draw_layout_adj{S, T<:Real}(
     # Determine sizes
     const NODESIZE    = 0.25/sqrt(N)
     const LINEWIDTH   = 3.0/sqrt(N)
-    const ARROWLENGTH = LINEWIDTH/10
+    const ARROWLENGTH = LINEWIDTH * arrowlengthfrac
 
     # Create lines and arrow heads
     lines = {}
