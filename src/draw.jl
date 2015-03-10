@@ -83,14 +83,22 @@ function lineij(locs_x, locs_y, i, j, NODESIZE, ARROWLENGTH)
     θ  = atan2(Δy,Δx)
     endx  = locs_x[i] + (d-NODESIZE)*1.00*cos(θ)
     endy  = locs_y[i] + (d-NODESIZE)*1.00*sin(θ)
-    arr1x = endx - ARROWLENGTH*cos(θ+20.0/180.0*π)
-    arr1y = endy - ARROWLENGTH*sin(θ+20.0/180.0*π)
-    arr2x = endx - ARROWLENGTH*cos(θ-20.0/180.0*π)
-    arr2y = endy - ARROWLENGTH*sin(θ-20.0/180.0*π)
-    return compose(
-            context(),
-            line([(locs_x[i], locs_y[i]), (endx, endy)]),
-            line([(arr1x, arr1y), (endx, endy)]),
-            line([(arr2x, arr2y), (endx, endy)])
-        )
+    if ARROWLENGTH > 0.0
+        arr1x = endx - ARROWLENGTH*cos(θ+20.0/180.0*π)
+        arr1y = endy - ARROWLENGTH*sin(θ+20.0/180.0*π)
+        arr2x = endx - ARROWLENGTH*cos(θ-20.0/180.0*π)
+        arr2y = endy - ARROWLENGTH*sin(θ-20.0/180.0*π)
+        composenode = compose(
+                context(),
+                line([(locs_x[i], locs_y[i]), (endx, endy)]),
+                line([(arr1x, arr1y), (endx, endy)]),
+                line([(arr2x, arr2y), (endx, endy)])
+            )
+    else
+        composenode = compose(
+                context(),
+                line([(locs_x[i], locs_y[i]), (endx, endy)])
+            )
+    end
+    return composenode 
 end
