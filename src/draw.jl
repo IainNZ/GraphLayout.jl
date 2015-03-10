@@ -4,7 +4,12 @@ function draw_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2}, 
     locs_x::Vector{T}, locs_y::Vector{T};
     labels::Vector={},
-    filename::String="")
+    filename::String="",
+    labelc::String="#000000",
+    nodefillc::String="#AAAAFF",
+    nodestrokec::String="#BBBBBB",
+    edgestrokec::String="#BBBBBB",
+    labelsize::Real=4.0)
     
     # draw_layout_adj
     # Given an adjacency matrix and two vectors of X and Y coordinates, draw
@@ -18,6 +23,9 @@ function draw_layout_adj{S, T<:Real}(
     #  labels           Optional. Labels for the vertices.
     #  filename         Optional. Output filename for SVG. If blank, just
     #                   tries to draw it anyway, which will display in IJulia
+    #  nodefillc        Color to fill the nodes with
+    #  nodestrokec      Color for the nodes stroke
+    #  edgestrokec      Color for the edge strokes
 
     length(locs_x) != length(locs_y) && error("Vectors must be same length")
     const N = length(locs_x)
@@ -45,23 +53,7 @@ function draw_layout_adj{S, T<:Real}(
         for j = 1:N
             i == j && continue
             if adj_matrix[i,j] != zero(eltype(adj_matrix))
-                Δx = locs_x[j] - locs_x[i]
-                Δy = locs_y[j] - locs_y[i]
-                d  = sqrt(Δx^2 + Δy^2)
-                θ  = atan2(Δy,Δx)
-                endx  = locs_x[i] + (d-NODESIZE)*1.00*cos(θ)
-                endy  = locs_y[i] + (d-NODESIZE)*1.00*sin(θ)
-                arr1x = endx - ARROWLENGTH*cos(θ+20.0/180.0*π)
-                arr1y = endy - ARROWLENGTH*sin(θ+20.0/180.0*π)
-                arr2x = endx - ARROWLENGTH*cos(θ-20.0/180.0*π)
-                arr2y = endy - ARROWLENGTH*sin(θ-20.0/180.0*π)
-                push!(lines, 
-                    compose(
-                        context(),
-                        line([(locs_x[i], locs_y[i]), (endx, endy)]),
-                        line([(arr1x, arr1y), (endx, endy)]),
-                        line([(arr2x, arr2y), (endx, endy)])
-                    ))
+                push!(lines, lineij(locs_x, locs_y, i,j, NODESIZE, ARROWLENGTH))
             end
         end
     end
@@ -72,13 +64,31 @@ function draw_layout_adj{S, T<:Real}(
     # Create labels (if wanted)
     texts = length(labels) == N ?
         [text(locs_x[i],locs_y[i],labels[i],hcenter,vcenter) for i=1:N] : {}
-
     draw(   filename == "" ? SVG(4inch, 4inch) : SVG(filename, 4inch, 4inch),  
             compose(
                 context(units=UnitBox(-1.2,-1.2,+2.4,+2.4)),
-                compose(context(), texts..., fill("#000000"), stroke(nothing), fontsize(4.0)),
-                compose(context(), nodes..., fill("#AAAAFF"), stroke("#BBBBBB")),
-                compose(context(), lines..., stroke("#BBBBBB"), linewidth(LINEWIDTH))
+                compose(context(), texts..., fill(labelc), stroke(nothing), fontsize(labelsize)),
+                compose(context(), nodes..., fill(nodefillc), stroke(nodestrokec)),
+                compose(context(), lines..., stroke(edgestrokec), linewidth(LINEWIDTH))
             )
+        )
+end
+
+function lineij(locs_x, locs_y, i, j, NODESIZE, ARROWLENGTH)
+    Δx = locs_x[j] - locs_x[i]
+    Δy = locs_y[j] - locs_y[i]
+    d  = sqrt(Δx^2 + Δy^2)
+    θ  = atan2(Δy,Δx)
+    endx  = locs_x[i] + (d-NODESIZE)*1.00*cos(θ)
+    endy  = locs_y[i] + (d-NODESIZE)*1.00*sin(θ)
+    arr1x = endx - ARROWLENGTH*cos(θ+20.0/180.0*π)
+    arr1y = endy - ARROWLENGTH*sin(θ+20.0/180.0*π)
+    arr2x = endx - ARROWLENGTH*cos(θ-20.0/180.0*π)
+    arr2y = endy - ARROWLENGTH*sin(θ-20.0/180.0*π)
+    return compose(
+            context(),
+            line([(locs_x[i], locs_y[i]), (endx, endy)]),
+            line([(arr1x, arr1y), (endx, endy)]),
+            line([(arr2x, arr2y), (endx, endy)])
         )
 end
