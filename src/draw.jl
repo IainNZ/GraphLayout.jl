@@ -76,6 +76,14 @@ function draw_layout_adj{S, T<:Real}(
         )
 end
 
+function arrowcoords(arrowlength, θ, endx, endy, angleoffset=20.0/180.0*π)
+    arr1x = endx - arrowlength*cos(θ+angleoffset)
+    arr1y = endy - arrowlength*sin(θ+angleoffset)
+    arr2x = endx - arrowlength*cos(θ-angleoffset)
+    arr2y = endy - arrowlength*sin(θ-angleoffset)
+    return (arr1x, arr1y), (arr2x, arr2y)
+end
+
 function lineij(locs_x, locs_y, i, j, NODESIZE, ARROWLENGTH)
     Δx = locs_x[j] - locs_x[i]
     Δy = locs_y[j] - locs_y[i]
@@ -84,15 +92,12 @@ function lineij(locs_x, locs_y, i, j, NODESIZE, ARROWLENGTH)
     endx  = locs_x[i] + (d-NODESIZE)*1.00*cos(θ)
     endy  = locs_y[i] + (d-NODESIZE)*1.00*sin(θ)
     if ARROWLENGTH > 0.0
-        arr1x = endx - ARROWLENGTH*cos(θ+20.0/180.0*π)
-        arr1y = endy - ARROWLENGTH*sin(θ+20.0/180.0*π)
-        arr2x = endx - ARROWLENGTH*cos(θ-20.0/180.0*π)
-        arr2y = endy - ARROWLENGTH*sin(θ-20.0/180.0*π)
+        arr1, arr2 = arrowcoords(ARROWLENGTH, θ, endx, endy)
         composenode = compose(
                 context(),
                 line([(locs_x[i], locs_y[i]), (endx, endy)]),
-                line([(arr1x, arr1y), (endx, endy)]),
-                line([(arr2x, arr2y), (endx, endy)])
+                line([arr1, (endx, endy)]),
+                line([arr2, (endx, endy)])
             )
     else
         composenode = compose(
