@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.2"
+     width="101.6mm" height="101.6mm" viewBox="0 0 101.6 101.6"
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.3"
+     font-size="3.88"
+>
+<g stroke-width="1.34" stroke="#BBBBBB" id="fig-34cf04ea5374492c803f9a6ce6a3bdc3-element-1">
+  <path fill="none" d="M93.13,72.43 L 12.64 29.47"/>
+  <path fill="none" d="M93.13,72.43 L 34.73 91.65"/>
+  <path fill="none" d="M93.13,72.43 L 53.22 51.14"/>
+  <path fill="none" d="M93.13,72.43 L 75.84 13.01"/>
+  <path fill="none" d="M8.47,27.24 L 88.96 70.2"/>
+  <path fill="none" d="M8.47,27.24 L 28.75 88.64"/>
+  <path fill="none" d="M8.47,27.24 L 44.87 46.68"/>
+  <path fill="none" d="M8.47,27.24 L 69.96 9.76"/>
+  <path fill="none" d="M30.24,93.13 L 88.64 73.91"/>
+  <path fill="none" d="M30.24,93.13 L 9.95 31.74"/>
+  <path fill="none" d="M30.24,93.13 L 47.19 53.27"/>
+  <path fill="none" d="M30.24,93.13 L 72.32 12.66"/>
+  <path fill="none" d="M49.04,48.91 L 88.96 70.2"/>
+  <path fill="none" d="M49.04,48.91 L 12.64 29.47"/>
+  <path fill="none" d="M49.04,48.91 L 32.09 88.78"/>
+  <path fill="none" d="M49.04,48.91 L 72 12.47"/>
+  <path fill="none" d="M74.52,8.47 L 91.81 67.89"/>
+  <path fill="none" d="M74.52,8.47 L 13.02 25.95"/>
+  <path fill="none" d="M74.52,8.47 L 32.43 88.94"/>
+  <path fill="none" d="M74.52,8.47 L 51.57 44.91"/>
+</g>
+<g stroke="#BBBBBB" fill="#AAAAFF" id="fig-34cf04ea5374492c803f9a6ce6a3bdc3-element-2">
+  <circle cx="93.13" cy="72.43" r="4.73"/>
+  <circle cx="8.47" cy="27.24" r="4.73"/>
+  <circle cx="30.24" cy="93.13" r="4.73"/>
+  <circle cx="49.04" cy="48.91" r="4.73"/>
+  <circle cx="74.52" cy="8.47" r="4.73"/>
+</g>
+<g font-size="4" stroke="none" fill="#000000" id="fig-34cf04ea5374492c803f9a6ce6a3bdc3-element-3">
+</g>
+</svg>

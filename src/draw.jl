@@ -133,7 +133,7 @@ Arguments:
                      Set to 0 for no arrows. Default: 0.1
     angleoffset      angular width in radians for the arrows. Default: π/9 (20 degrees).
 """ ->
-function compose_layout_adj{S, T<:Real}(
+function draw_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2},
     locs_x::Vector{T}, locs_y::Vector{T};
     labels::Vector=Any[],
