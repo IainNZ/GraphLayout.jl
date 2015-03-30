@@ -1,14 +1,16 @@
 using Compose
+import Color
+typealias ComposeColor Union(Color.ColorValue, Color.AlphaColorValue, Color.String)
 
 function draw_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2}, 
     locs_x::Vector{T}, locs_y::Vector{T};
     labels::Vector={},
     filename::String="",
-    labelc::String="#000000",
-    nodefillc::String="#AAAAFF",
-    nodestrokec::String="#BBBBBB",
-    edgestrokec::String="#BBBBBB",
+    labelc::ComposeColor="#000000",
+    nodefillc::ComposeColor="#AAAAFF",
+    nodestrokec::ComposeColor="#BBBBBB",
+    edgestrokec::ComposeColor="#BBBBBB",
     labelsize::Real=4.0,
     arrowlengthfrac::Real=0.1,
     angleoffset=20.0/180.0*π)
