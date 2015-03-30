@@ -33,7 +33,6 @@ function compose_layout_adj{S, T<:Real}(
     labelsize::Real=4.0,
     arrowlengthfrac::Real=0.1,
     angleoffset=20.0/180.0*π)
-    locs_x::Vector{T}, locs_y::Vector{T}; labels::Vector={})
 
     length(locs_x) != length(locs_y) && error("Vectors must be same length")
     const N = length(locs_x)
@@ -56,7 +55,7 @@ function compose_layout_adj{S, T<:Real}(
     const ARROWLENGTH = LINEWIDTH * arrowlengthfrac
 
     # Create lines and arrow heads
-    lines = {}
+    lines = Any[]
     for i = 1:N
         for j = 1:N
             i == j && continue
