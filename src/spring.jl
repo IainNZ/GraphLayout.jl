@@ -1,18 +1,20 @@
+@doc """
+    Use the spring/repulsion model of Fruchterman and Reingold (1991):
+        Attractive force:  f_a(d) =  d^2 / k
+        Repulsive force:  f_r(d) = -k^2 / d
+    where d is distance between two vertices and the optimal distance
+    between vertices k is defined as C * sqrt( area / num_vertices )
+    where C is a parameter we can adjust
 
+    Arguments:
+    adj_matrix Adjacency matrix of some type. Non-zero of the eltype
+               of the matrix is used to determine if a link exists,
+               but currently no sense of magnitude
+    C          Constant to fiddle with density of resulting layout
+    MAXITER    Number of iterations we apply the forces
+    INITTEMP   Initial "temperature", controls movement per iteration
+""" ->
 function layout_spring_adj{T}(adj_matrix::Array{T,2}; C=2.0, MAXITER=100, INITTEMP=2.0)
-    # Use the spring/repulsion model of Fruchterman and Reingold (1991):
-    # Attractive force:  f_a(d) =  d^2 / k
-    #  Repulsive force:  f_r(d) = -k^2 / d
-    # where d is distance between two vertices and the optimal distance
-    # between vertices k is defined as C * sqrt( area / num_vertices )
-    # where C is a parameter we can adjust
-    # Arguments:
-    #  adj_matrix       Adjacency matrix of some type. Non-zero of the eltype
-    #                   of the matrix is used to determine if a link exists,
-    #                   but currently no sense of magnitude
-    #  C                Constant to fiddle with density of resulting layout
-    #  MAXITER          Number of iterations we apply the forces
-    #  INITTEMP         Initial "temperature", controls movement per iteration
 
     size(adj_matrix, 1) != size(adj_matrix, 2) && error("Adj. matrix must be square.")
     const N = size(adj_matrix, 1)
@@ -41,13 +43,13 @@ function layout_spring_adj{T}(adj_matrix::Array{T,2}; C=2.0, MAXITER=100, INITTE
                 d   = sqrt(d_x^2 + d_y^2)
                 if adj_matrix[i,j] != zero(eltype(adj_matrix)) || adj_matrix[j,i] != zero(eltype(adj_matrix))
                     # F = d^2 / K - K^2 / d
-                    F_d = d / K - K^2 / d^2 
+                    F_d = d / K - K^2 / d^2
                 else
                     # Just repulsive
                     # F = -K^2 / d^
                     F_d = -K^2 / d^2
                 end
-                # d  /          sin θ = d_y/d = fy/F  
+                # d  /          sin θ = d_y/d = fy/F
                 # F /| dy fy    -> fy = F*d_y/d
                 #  / |          cos θ = d_x/d = fx/F
                 # /---          -> fx = F*d_x/d
@@ -70,7 +72,7 @@ function layout_spring_adj{T}(adj_matrix::Array{T,2}; C=2.0, MAXITER=100, INITTE
             #locs_y[i]  = max(-1.0, min(locs_y[i], +1.0))
         end
     end
-    
+
     # Scale to unit square
     min_x, max_x = minimum(locs_x), maximum(locs_x)
     min_y, max_y = minimum(locs_y), maximum(locs_y)
