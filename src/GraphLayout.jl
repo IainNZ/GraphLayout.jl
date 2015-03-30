@@ -8,7 +8,7 @@ module GraphLayout
     include("stress.jl")
 
     # Optional plotting features using Compose
-    export draw_layout_adj
+    export compose_layout_adj, draw_layout_adj
     try
         require("Compose")
         include("draw.jl")
