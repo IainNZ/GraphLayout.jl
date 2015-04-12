@@ -11,6 +11,10 @@ module GraphLayout
     export layout_stressmajorize_adj
     include("stress.jl")
 
+    # Tree layout algorithms
+    export layout_tree
+    include("tree.jl")
+
     # Optional plotting features using Compose
     export compose_layout_adj, draw_layout_adj
     try
