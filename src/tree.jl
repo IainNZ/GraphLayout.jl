@@ -42,12 +42,13 @@ function layout_tree{T}(adj_list::AdjList{T}, labels; cycles=true)
         push!(layer_verts[layers[i]], i)
     end
     # 4.2  Reorder using barycentric method
-    for iter in 1:1
+    for iter in 1:5
+        # DOWN
         for L in 1:num_layers-1
             # Calculate barycenter for every vertex in next layer
             cur_layer = layer_verts[L]
             next_layer = layer_verts[L+1]
-            barys  = zeros(n)
+            barys = zeros(n)
             in_deg = zeros(n)
             for (p,i) in enumerate(cur_layer)
                 # Because of the dummy vertices we know that
@@ -60,8 +61,44 @@ function layout_tree{T}(adj_list::AdjList{T}, labels; cycles=true)
             barys ./= in_deg
             # Arrange next layer by barys, in ascending order
             next_layer_barys = [barys[j] for j in next_layer]
+            #println("DOWN $L")
+            #println(next_layer)
+            #println(next_layer_barys)
             layer_verts[L+1] = next_layer[sortperm(next_layer_barys)]
         end
+        # UP
+        for L in num_layers-1:-1:1
+            # Calculate barycenters for every vertex in cur layer
+            cur_layer = layer_verts[L]
+            next_layer = layer_verts[L+1]
+            barys = zeros(n)
+            out_deg = zeros(n)
+            for (p,i) in enumerate(cur_layer)
+                # Because of the dummy vertices we know that
+                # all vertices in adj list for i are in next layer
+                # We need to know their positions in next layer
+                # though, unfortunately. Probably a smarter way
+                # to do this step
+                for (q,j) in enumerate(adj_list[i])
+                    # Find position in next layer
+                    for (r,k) in enumerate(next_layer)
+                        if k == j
+                            barys[i] += r
+                            out_deg[i] += 1
+                            break
+                        end
+                    end
+                end
+            end
+            barys ./= out_deg
+            # Arrange cur layer by barys, in ascending order
+            cur_layer_barys = [barys[j] for j in cur_layer]
+            #println("UP $L")
+            #println(cur_layer)
+            #println(cur_layer_barys)
+            layer_verts[L] = cur_layer[sortperm(cur_layer_barys)]
+        end
+        # Do something with phase 2 here - don't really understand
     end
 
     # 5. Horizontal positioning
