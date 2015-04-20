@@ -1,25 +1,34 @@
 typealias AdjList{T} Vector{Vector{T}}
 
 @doc """
-    Use the Sugiyama framework/metod for hierachical drawing of graphs.
-    For reference, see Chapter 13 of 'Hierachical Drawing Algorithms' from
-    'Handbook of Graph Drawing and Visualization' and
+    Hierachical drawing of directed graphs inspired by the Sugiyama framework.
+    In particular see Chapter 13 of 'Hierachical Drawing Algorithms' from
+    the 'Handbook of Graph Drawing and Visualization' and the article
       K. Sugiyama, S. Tagawa, and M. Toda. Methods for visual understanding
       of hierarchical system structures. IEEE Transaction on Systems, Man,
       and Cybernetics, 11(2):109–125, 1981.
 
-    The method has 4 steps:
+    The method as implemented here has 4 steps:
     1. Cycle removal [if needed]
-    2. Layer assignment, and dummy vertices for long edges
-    3. Vertex ordering, [reduce crossings]
-    4. Horizontal Positioning
+    2. Layer assignment + break up long edges
+    3. Vertex ordering [to reduce crossings]
+    4. Vertex coordinates [to straighten edges]
 
     Arguments:
     adj_list        Directed graph in adjacency list format
+
+    Optional arguments:
+    cycles          If false, assume no cycles. Default true.
+    ordering        Vertex ordering method to use. Options are:
+                        :optimal        Uses JuMP/integer program
+                        :barycentric    Sugiyama heuristic
+    coord           Vertex coordinate method to use. Options are:
+                        :optimal        Uses JuMP/linear program
 """ ->
 function layout_tree{T}(adj_list::AdjList{T}; 
-                        cycles=true,
-                        ordering=:barycentric)
+                        cycles   = true,
+                        ordering = :optimal,
+                        coord    = :optimal)
     n = length(adj_list)
 
     # 1. Cycle removal
@@ -37,13 +46,13 @@ function layout_tree{T}(adj_list::AdjList{T};
     orig_n, n = n, length(adj_list)
 
 
-    # 3    Vertex ordering
-    # 4.1  Build initial permutation vectors
+    # 3    Vertex ordering [to reduce crossings]
+    # 3.1  Build initial permutation vectors
     layer_verts = [L => Int[] for L in 1:num_layers]
     for i in 1:n
         push!(layer_verts[layers[i]], i)
     end
-    # 4.2  Reorder permutations to reduce crossings
+    # 3.2  Reorder permutations to reduce crossings
     if ordering == :barycentric
         layer_verts = _ordering_barycentric(adj_list, layers, layer_verts)
     elseif ordering == :optimal
@@ -51,16 +60,15 @@ function layout_tree{T}(adj_list::AdjList{T};
     end
     
 
-    # 5. Horizontal positioning
-    locs_x = zeros(n)
+    # 4.   Vertex coordinates [to straighten edges]
     locs_y = zeros(n)
     for L in 1:num_layers
         for (x,v) in enumerate(layer_verts[L])
-            locs_x[v] = x
             locs_y[v] = L
-            #println("$v $x $L $(labels[v])")
         end
     end
+    locs_x = _coord_ip(adj_list, layers, layer_verts, orig_n)
+
 
     return locs_x,locs_y,adj_list
 end

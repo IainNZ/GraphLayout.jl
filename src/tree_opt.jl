@@ -6,6 +6,10 @@
 
 using JuMP
 
+########################################################################
+
+
+
 @doc """
     Given a layer assignment, decide a permutation for each layer
     that minimizes edge crossings using integer programming.
@@ -103,4 +107,88 @@ function _ordering_ip{T}(adj_list::AdjList{T}, layers, layer_verts)
     end
 
     return new_layer_verts
+end
+
+
+
+########################################################################
+
+
+
+@doc """
+    Given a layer assignment and permutation, decide the coordinates for
+    each vertex. The objective is to encourage straight edges, especially
+    for longer edges. This function uses an integer program to decide the
+    coordinates (although it is solved as a linear program), as described in
+      Gansner, Emden R., et al.
+      A technique for drawing directed graphs.
+      Software Engineering, IEEE Transactions on 19.3 (1993): 214-230.
+
+    Arguments:
+    adj_list        Directed graph in adjacency list format
+    layers          Assignment of vertices
+    layer_verts     Dictionary of layer => vertices (final perm.)
+    orig_n          Number of original (non-dummy) vertices
+
+    Returns:
+    layer_coords    For each layer and vertex, the x-coord
+""" ->
+function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n)
+    num_layers = maximum(layers)
+
+    m = Model()
+
+    # One variable for each vertex
+    @defVar(m, x[L=1:num_layers, i=layer_verts[L]] >= 0)
+
+    # Constraint: must respect permutation
+    for L in 1:num_layers
+        for i in 1:length(layer_verts[L])-1
+            @addConstraint(m, x[L,layer_verts[L][i+1]] - x[L,layer_verts[L][i]] >= 1)
+        end
+    end
+
+    # Objective: minimize total misalignment
+    # Use the weights from the Ganser paper:
+    #   1 if both nodes "real"
+    #   2 if one of the nodes is "real"
+    #   8 if neither node is "real"
+    # We use absolute distance in the objective so we'll need
+    # auxilary variables for each pair of edges
+    obj = AffExpr()
+    @defVar(m, absdiff[L=1:num_layers-1,
+                        i=layer_verts[L], j=adj_list[i]] >= 0)
+    for L in 1:num_layers-1
+        for i in layer_verts[L]
+            for j in adj_list[i]
+                @addConstraint(m, absdiff[L,i,j] >= x[L,i] - x[L+1,j])
+                @addConstraint(m, absdiff[L,i,j] >= x[L+1,j] - x[L,i])
+                if i > orig_n && j > orig_n
+                    # Both dummy vertices
+                    obj += 8*absdiff[L,i,j]
+                elseif (i <= orig_n && j >  orig_n) ||
+                       (i >  orig_n && j <= orig_n)
+                    # Only one dummy vertix
+                    obj += 2*absdiff[L,i,j]
+                else
+                    # Both real
+                    obj += absdiff[L,i,j]
+                end
+            end
+        end
+    end
+    @setObjective(m, Min, obj)
+
+    # Solve it...
+    solve(m)
+
+    # ... and mangle the solution into shape
+    x_sol = getValue(x)
+    locs_x = zeros(length(layers))
+    for L in 1:num_layers
+        for i in layer_verts[L]
+            locs_x[i] = x_sol[L,i]
+        end
+    end
+    return locs_x
 end
