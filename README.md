@@ -1,17 +1,26 @@
-GraphLayout.jl
-==============
+# GraphLayout.jl
+
+Graph layout and visualization algorithms, implemented in Julia.
 
 [![Build Status](https://travis-ci.org/IainNZ/GraphLayout.jl.svg)](https://travis-ci.org/IainNZ/GraphLayout.jl)
 [![Coverage Status](https://img.shields.io/coveralls/IainNZ/GraphLayout.jl.svg)](https://coveralls.io/r/IainNZ/GraphLayout.jl)
 [![GraphLayout](http://pkg.julialang.org/badges/GraphLayout_release.svg)](http://pkg.julialang.org/?pkg=GraphLayout&ver=release)
 
-Graph layout algorithms in pure Julia. Currently only has the spring-based method of [Fruchterman and Reingold (1991)](http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf), but more can and will be added. Only other restriction is the graph must be provided in adjacency matrix format - adjacency list and [Graph.jl](https://github.com/JuliaLang/Graphs.jl) support to come later (PRs welcomed).
+The package currently implements the following layout methods:
 
-Related packages:
-* [TikzGraphs.jl](https://github.com/sisl/TikzGraphs.jl) - plot `Graph.jl` graphs using `lualatex/tikz`.
+* Spring-based method of [Fruchterman and Reingold (1991)](https://scholar.google.com/scholar?q=Graph+Drawing+by+Force+Directed+Placement)
+* Stress-majorization method of [Gansner, Koren, and North (2005)](https://scholar.google.com/scholar?hl=en&q=Graph+Drawing+by+Stress+Majorization)
+* Hierachical drawing of directed graphs inspired by the methods of [Sugiyama, Tagawa, and Toda (1981)](https://scholar.google.com/scholar?q=Methods+for+visual+understanding+of+hierarchical+system+structures).
+
+The visualizations are created using [Compose.jl](https://github.com/dcjones/Compose.jl), enabling output to a variety of vector and raster image formats. The hierachical drawing algorithm has multiple components, some of which can use exact algorithms instead of heuristics. To use these components [JuMP](https://github.com/JuliaOpt/JuMP.jl) and a [suitable solver](http://juliaopt.org) should be installed.
+
+GraphLayouts.jl is not a comprehensive graph visualization option yet. Some related packages may meet your needs:
 * [GraphViz.jl](https://github.com/Keno/GraphViz.jl) - Julia binding to the `GraphViz` library.
+* [TikzGraphs.jl](https://github.com/sisl/TikzGraphs.jl) - plot `Graph.jl` graphs using `lualatex/tikz`.
 
-GraphLayout.jl has an optional dependency on [Compose.jl](https://github.com/dcjones/Compose.jl). If you have it installed you can plot the resulting graph layouts:
+### Examples
+
+If you have it installed you can plot the resulting graph layouts:
 
 ![Gadfly](https://rawgit.com/IainNZ/GraphLayout.jl/master/example/gadfly.svg)
 
@@ -19,4 +28,4 @@ GraphLayout.jl has an optional dependency on [Compose.jl](https://github.com/dcj
 
 ![Random](https://rawgit.com/IainNZ/GraphLayout.jl/master/test/random.svg)
 
-MIT License. Copyright (c) 2014 Iain Dunning
+MIT License. Copyright (c) 2015 [Iain Dunning](http://iaindunning.com) and [contributors](https://github.com/IainNZ/GraphLayout.jl/graphs/contributors).
