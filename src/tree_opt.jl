@@ -9,7 +9,6 @@ using JuMP
 ########################################################################
 
 
-
 @doc """
     Given a layer assignment, decide a permutation for each layer
     that minimizes edge crossings using integer programming.
@@ -110,9 +109,7 @@ function _ordering_ip{T}(adj_list::AdjList{T}, layers, layer_verts)
 end
 
 
-
 ########################################################################
-
 
 
 @doc """
@@ -129,11 +126,13 @@ end
     layers          Assignment of vertices
     layer_verts     Dictionary of layer => vertices (final perm.)
     orig_n          Number of original (non-dummy) vertices
+    widths          Width of each vertex
+    xsep            Minimum seperation between each vertex
 
     Returns:
     layer_coords    For each layer and vertex, the x-coord
 """ ->
-function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n)
+function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n, widths, xsep)
     num_layers = maximum(layers)
 
     m = Model()
@@ -141,10 +140,13 @@ function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n)
     # One variable for each vertex
     @defVar(m, x[L=1:num_layers, i=layer_verts[L]] >= 0)
 
-    # Constraint: must respect permutation
+    # Constraint: must respect permutation, and spacign constraint
     for L in 1:num_layers
         for i in 1:length(layer_verts[L])-1
-            @addConstraint(m, x[L,layer_verts[L][i+1]] - x[L,layer_verts[L][i]] >= 1)
+            a = layer_verts[L][i]
+            b = layer_verts[L][i+1]
+            @addConstraint(m, x[L,b] - x[L,a] >= 
+                (widths[a] + widths[b])/2 + xsep)
         end
     end
 

@@ -146,7 +146,7 @@ function draw_layout_adj{S, T<:Real}(
     arrowlengthfrac::Real=0.1,
     angleoffset=20.0/180.0*π)
 
-    draw(filename == "" ? SVG(4inch, 4inch) : SVG(filename, 4inch, 4inch),
+    draw(filename == "" ? SVG(8inch, 8inch) : SVG(filename, 8inch, 8inch),
         compose_layout_adj(adj_matrix, locs_x, locs_y, labels=labels,
             labelc=labelc, nodefillc=nodefillc, nodestrokec=nodestrokec,
             edgestrokec=edgestrokec, labelsize=labelsize,

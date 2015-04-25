@@ -1,5 +1,3 @@
-typealias AdjList{T} Vector{Vector{T}}
-
 @doc """
     Hierachical drawing of directed graphs inspired by the Sugiyama framework.
     In particular see Chapter 13 of 'Hierachical Drawing Algorithms' from
@@ -13,32 +11,44 @@ typealias AdjList{T} Vector{Vector{T}}
     2. Layer assignment + break up long edges
     3. Vertex ordering [to reduce crossings]
     4. Vertex coordinates [to straighten edges]
+    5. Draw the tree
 
     Arguments:
     adj_list        Directed graph in adjacency list format
 
-    Optional arguments:
+    Optional arguments for layout:
     cycles          If false, assume no cycles. Default true.
     ordering        Vertex ordering method to use. Options are:
-                        :optimal        Uses JuMP/integer program
+                        :optimal        Uses JuMP (integer program)
                         :barycentric    Sugiyama heuristic
     coord           Vertex coordinate method to use. Options are:
-                        :optimal        Uses JuMP/linear program
+                        :optimal        Uses JuMP (linear program)
+
+    Optional arguments for drawing:
 """ ->
 function layout_tree{T}(adj_list::AdjList{T}; 
-                        cycles   = true,
-                        ordering = :optimal,
-                        coord    = :optimal)
+                        # Layout arguments
+                        cycles      = true,
+                        ordering    = :optimal,
+                        coord       = :optimal,
+                        xsep        = 1,
+                        ysep        = 20,
+                        # Drawing arguments
+                        labels      = Any[],
+                        filename    = "",
+                        scale       = 0.05)
+
+    # Calculate the original number of vertices
     n = length(adj_list)
 
-    # 1. Cycle removal
+    # 1     Cycle removal
     if cycles
         # Need to remove cycles first
         error("Cycle removal not implemented!")
     end
 
-    # 2    Layering
-    # 2.1  Assign a layer to each vertex
+    # 2     Layering
+    # 2.1   Assign a layer to each vertex
     layers = _layer_assmt_longestpath(adj_list)
     num_layers = maximum(layers)
     # 2.2  Create dummy vertices for long edges
@@ -46,8 +56,8 @@ function layout_tree{T}(adj_list::AdjList{T};
     orig_n, n = n, length(adj_list)
 
 
-    # 3    Vertex ordering [to reduce crossings]
-    # 3.1  Build initial permutation vectors
+    # 3     Vertex ordering [to reduce crossings]
+    # 3.1   Build initial permutation vectors
     layer_verts = [L => Int[] for L in 1:num_layers]
     for i in 1:n
         push!(layer_verts[layers[i]], i)
@@ -60,163 +70,107 @@ function layout_tree{T}(adj_list::AdjList{T};
     end
     
 
-    # 4.   Vertex coordinates [to straighten edges]
+    # 4     Vertex coordinates [to straighten edges]
+    # 4.1   Place y coordinates in layers
     locs_y = zeros(n)
     for L in 1:num_layers
         for (x,v) in enumerate(layer_verts[L])
-            locs_y[v] = L
+            locs_y[v] = (L-1)*ysep
         end
     end
-    locs_x = _coord_ip(adj_list, layers, layer_verts, orig_n)
+    # 4.2   Get widths of each label, if there are any
+    widths  = ones(n); widths[orig_n+1:n]  = 0
+    heights = ones(n); heights[orig_n+1:n] = 0
+    if length(labels) == orig_n
+        extents = text_extents("sans",10pt,labels...)
+        for (i,(width,height)) in enumerate(extents)
+            widths[i], heights[i] = width.abs, height.abs
+        end
+    end
+    locs_x = _coord_ip(adj_list, layers, layer_verts, orig_n, widths, xsep)
+    # 4.3   Summarize vertex info
+    max_x, max_y = maximum(locs_x), maximum(locs_y)
+    max_w, max_h = maximum(widths), maximum(heights)
 
 
-    return locs_x,locs_y,adj_list
+    # 5     Draw the tree
+    # 5.1   Create the vertices
+    verts = [_tree_textrect(locs_x[i]*cx,locs_y[i]*cy,labels[i]) for i in 1:orig_n]
+    # 5.2   Create the arrows
+    arrows = Any[]
+    for L in 1:num_layers, i in layer_verts[L], j in adj_list[i]
+        push!(arrows, _arrow_tree(
+                locs_x[i],locs_y[i], i<=orig_n?max_h:0,
+                locs_x[j],locs_y[j], j<=orig_n?max_h:0))
+    end
+    # 5.3   Assemble composition
+    c = compose(
+        context(units=UnitBox(-max_w/2,-max_h/2,max_x+max_w,max_y+max_h)),
+        font("sans"), fontsize(8.0pt),
+        rectangle(), fill("#FAFAFA"),
+        verts..., arrows...
+    )
+    # 5.4   Draw it
+    if filename != ""
+        draw(SVG(filename, scale*max_x*inch, scale*max_y*inch), c)
+    end
+    return c
 end
 
 
 
 @doc """
-    Assigns layers using the longest path method.
+    Creates a rectangle with text inside it for use in tree drawing.
 
     Arguments:
-    adj_list        Directed graph in adjacency list format
+    x,y             Center of rectangle/text (in context units)
+    label           The text inside the rectangle
+    pad             Padding factor, default = 1.1           
+    font_size       Size of font, default = 8pt
+    font_face       Font to use, default = "sans"
 """ ->
-function _layer_assmt_longestpath{T}(adj_list::AdjList{T})
-    n = length(adj_list)
-    layers = fill(-1, n)
-
-    for j in 1:n
-        in_deg = 0
-        for i in 1:n
-            if j in adj_list[i]
-                in_deg += 1
-            end
-        end
-        if in_deg == 0
-            # Start recursive walk from this vertex
-            layers[j] = 1
-            _layer_assmt_longestpath_rec(adj_list, layers, j)
-        end
-    end
-
-    return layers
+function _tree_textrect(x, y, label, pad=1.2, font_size=8.0pt, font_face="sans")
+    width, height = text_extents(font_face, font_size, label)[1]
+    width, height = pad*width, pad*height
+    compose(
+        context(x - width/2, y - height/2, width, height),
+        (context(), text(0.5w, 0.5h, label, hcenter, vcenter), fill("black")),
+        (context(), rectangle(), fill("white"), stroke("black"))
+    )
 end
-function _layer_assmt_longestpath_rec{T}(adj_list::AdjList{T}, layers, i)
-    # Look for all children of vertex i, try to bump their layer
-    n = length(adj_list)
-    for j in adj_list[i]
-        if layers[j] == -1 || layers[j] <= layers[i]
-            layers[j] = layers[i] + 1
-            _layer_assmt_longestpath_rec(adj_list, layers, j)
-        end
-    end
+
+
+
+@doc """
+    Creates an arrow between two rectangles in the tree
+
+    Arguments:
+    o_x, o_y, o_h   Origin x, y, and height
+    d_x, d_y, d_h   Destination x, y, and height
+""" ->
+function _arrow_tree(o_x, o_y, o_h, d_x, d_y, d_h)
+    x1, y1 = o_x, o_y + o_h/2
+    x2, y2 = d_x, d_y - d_h/2
+    Δx, Δy = x2 - x1, y2 - y1
+    θ = atan2(Δy,Δx)
+    # Put an arrow head only if destination isn't dummy
+    head = d_h != 0 ? _arrow_heads(θ, x2, y2, 2) : []
+    compose(context(), stroke("black"),
+        line([(x1,y1),(x2,y2)]), head...)
 end
 
 
 @doc """
-    Given a layer assignment, introduce dummy vertices to break up
-    long edges (more than one layer)
+    Creates an arrow head given the angle of the arrow and its destination.
 
     Arguments:
-    orig_adj_list   Original directed graph in adjacency list format
-    layers          Assignment of original vertices
+    θ               Angle of arrow (radians)
+    dest_x, dest_y  End of arrow
+    λ               Length of arrow head tips
+    ϕ               Angle of arrow head tips relative to angle of arrow
 """ ->
-function _layer_assmt_dummy{T}(orig_adj_list::AdjList{T}, layers)
-    adj_list = deepcopy(orig_adj_list)
-
-    # This is essentially
-    # for i in 1:length(adj_list)
-    # but the adj_list is growing in the loop
-    i = 1
-    while i <= length(adj_list)
-        for (k,j) in enumerate(adj_list[i])
-            if layers[j] - layers[i] > 1
-                # Need to add a dummy vertex
-                new_v = length(adj_list) + 1
-                adj_list[i][k] = new_v  # Replace dest of cur edge
-                push!(adj_list, Int[j])  # Add new edge
-                push!(layers, layers[i]+1)  # Layer for new edge
-            end
-        end
-        i += 1
-    end
-
-    return adj_list, layers
-end
-
-
-@doc """
-    Given a layer assignment, decide a permutation for each layer
-    that attempts to minimizes edge crossings using the barycenter
-    method proposed in the Sugiyama paper.
-
-    Arguments:
-    adj_list        Directed graph in adjacency list format
-    layers          Assignment of vertices
-    layer_verts     Dictionary of layer => vertices
-""" ->
-function _ordering_barycentric{T}(adj_list::AdjList{T}, layers, layer_verts)
-    num_layers = maximum(layers)
-    n = length(adj_list)
-
-    for iter in 1:5
-        # DOWN
-        for L in 1:num_layers-1
-            # Calculate barycenter for every vertex in next layer
-            cur_layer = layer_verts[L]
-            next_layer = layer_verts[L+1]
-            barys = zeros(n)
-            in_deg = zeros(n)
-            for (p,i) in enumerate(cur_layer)
-                # Because of the dummy vertices we know that
-                # all vertices in adj list for i are in next layer
-                for (q,j) in enumerate(adj_list[i])
-                    barys[j] += p
-                    in_deg[j] += 1
-                end
-            end
-            barys ./= in_deg
-            # Arrange next layer by barys, in ascending order
-            next_layer_barys = [barys[j] for j in next_layer]
-            #println("DOWN $L")
-            #println(next_layer)
-            #println(next_layer_barys)
-            layer_verts[L+1] = next_layer[sortperm(next_layer_barys)]
-        end
-        # UP
-        for L in num_layers-1:-1:1
-            # Calculate barycenters for every vertex in cur layer
-            cur_layer = layer_verts[L]
-            next_layer = layer_verts[L+1]
-            barys = zeros(n)
-            out_deg = zeros(n)
-            for (p,i) in enumerate(cur_layer)
-                # Because of the dummy vertices we know that
-                # all vertices in adj list for i are in next layer
-                # We need to know their positions in next layer
-                # though, unfortunately. Probably a smarter way
-                # to do this step
-                for (q,j) in enumerate(adj_list[i])
-                    # Find position in next layer
-                    for (r,k) in enumerate(next_layer)
-                        if k == j
-                            barys[i] += r
-                            out_deg[i] += 1
-                            break
-                        end
-                    end
-                end
-            end
-            barys ./= out_deg
-            # Arrange cur layer by barys, in ascending order
-            cur_layer_barys = [barys[j] for j in cur_layer]
-            #println("UP $L")
-            #println(cur_layer)
-            #println(cur_layer_barys)
-            layer_verts[L] = cur_layer[sortperm(cur_layer_barys)]
-        end
-        # Do something with phase 2 here - don't really understand
-    end
-
-    return layer_verts
-end
+_arrow_heads(θ, dest_x, dest_y, λ, ϕ=0.125π) = [ line([
+    (dest_x - λ*cos(θ+ϕ), dest_y - λ*sin(θ+ϕ)),
+    (dest_x, dest_y),
+    (dest_x - λ*cos(θ-ϕ), dest_y - λ*sin(θ-ϕ))
+]) ]

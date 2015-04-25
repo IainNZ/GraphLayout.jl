@@ -32,17 +32,4 @@ for i in 1:size(adj_matrix,1)
     push!(adj_list, new_list)
 end
 
-loc_x, loc_y, exp_adj_list = 
-    GraphLayout.layout_tree(adj_list, cycles=false, ordering=:optimal)
-
-# Correct for dummy nodes
-for i in 1:(length(loc_x)-length(adj_list))
-    push!(labels, "")
-end
-exp_adj_matrix = zeros(length(loc_x),length(loc_y))
-for (i,lst) in enumerate(exp_adj_list)
-    for j in lst
-        exp_adj_matrix[i,j] = 1
-    end
-end
-draw_layout_adj(exp_adj_matrix, loc_x, loc_y, labels=labels, filename="test.svg", labelsize=2.0)
+GraphLayout.layout_tree(adj_list, cycles=false, labels=labels, filename="tree.svg")
