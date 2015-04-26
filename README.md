@@ -2,9 +2,11 @@
 
 Graph layout and visualization algorithms, implemented in Julia.
 
+- **Current release (v0.2)**: [![GraphLayout](http://pkg.julialang.org/badges/GraphLayout_release.svg)](http://pkg.julialang.org/?pkg=GraphLayout&ver=release)
+- **Development version**: 
 [![Build Status](https://travis-ci.org/IainNZ/GraphLayout.jl.svg)](https://travis-ci.org/IainNZ/GraphLayout.jl)
 [![Coverage Status](https://img.shields.io/coveralls/IainNZ/GraphLayout.jl.svg)](https://coveralls.io/r/IainNZ/GraphLayout.jl)
-[![GraphLayout](http://pkg.julialang.org/badges/GraphLayout_release.svg)](http://pkg.julialang.org/?pkg=GraphLayout&ver=release)
+
 
 The package currently implements the following layout methods:
 
