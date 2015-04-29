@@ -13,10 +13,15 @@
     4. Vertex coordinates [to straighten edges]
     5. Draw the tree
 
+    Will return the Compose.jl visualization of the tree, and optionally
+    save to file (SVG) if a filename is provided.
+
     Arguments:
     adj_list        Directed graph in adjacency list format
+    labels          Label for each vertex
 
-    Optional arguments for layout:
+    Optional arguments:
+    filename        Output filename
     cycles          If false, assume no cycles. Default true.
     ordering        Vertex ordering method to use. Options are:
                         :optimal        Uses JuMP (integer program)
@@ -24,20 +29,25 @@
     coord           Vertex coordinate method to use. Options are:
                         :optimal        Uses JuMP (linear program)
 
-    Optional arguments for drawing:
+    xsep            Controls the minimum vertex horizontal spacing
+    ysep            Controls the minimum vertex vertical spacing
+    scale           Scales the output figure size
+    labelpad        Padding around text in vertices
+    background      Defaults to nothing. If not-nothing, that value
+                    will be used for the background color
 """ ->
-function layout_tree{T}(adj_list::AdjList{T}; 
-                        # Layout arguments
+function layout_tree{T}(adj_list::AdjList{T},
+                        labels::Vector;
+                        filename    = "",
+
                         cycles      = true,
                         ordering    = :optimal,
                         coord       = :optimal,
-                        xsep        = 1,
+                        xsep        = 3,
                         ysep        = 20,
-                        # Drawing arguments
-                        labels      = Any[],
-                        filename    = "",
-                        scale       = 0.05)
-
+                        scale       = 0.05,
+                        labelpad    = 1.2,
+                        background  = nothing)
     # Calculate the original number of vertices
     n = length(adj_list)
 
@@ -81,6 +91,11 @@ function layout_tree{T}(adj_list::AdjList{T};
     # 4.2   Get widths of each label, if there are any
     widths  = ones(n); widths[orig_n+1:n]  = 0
     heights = ones(n); heights[orig_n+1:n] = 0
+    # Note that we will convert these sizes into "absolute" units
+    # and then work in these same units throughout. The font size used
+    # here is just arbitrary, and unchanging. This hack arises because it
+    # is meaningless to ask for the size of the font in "relative" units
+    # but we don't want to collapse to absolute units until the end.
     if length(labels) == orig_n
         extents = text_extents("sans",10pt,labels...)
         for (i,(width,height)) in enumerate(extents)
@@ -92,23 +107,36 @@ function layout_tree{T}(adj_list::AdjList{T};
     max_x, max_y = maximum(locs_x), maximum(locs_y)
     max_w, max_h = maximum(widths), maximum(heights)
 
-
     # 5     Draw the tree
     # 5.1   Create the vertices
-    verts = [_tree_textrect(locs_x[i]*cx,locs_y[i]*cy,labels[i]) for i in 1:orig_n]
+    verts = [_tree_textrect(locs_x[i], locs_y[i], labels[i], widths[i], heights[i]) for i in 1:orig_n]
     # 5.2   Create the arrows
     arrows = Any[]
     for L in 1:num_layers, i in layer_verts[L], j in adj_list[i]
         push!(arrows, _arrow_tree(
-                locs_x[i],locs_y[i], i<=orig_n?max_h:0,
-                locs_x[j],locs_y[j], j<=orig_n?max_h:0))
+                locs_x[i], locs_y[i], i<=orig_n ? max_h : 0,
+                locs_x[j], locs_y[j], j<=orig_n ? max_h : 0))
     end
     # 5.3   Assemble composition
+    # We need to decide the true font size now. The logic is as follows:
+    # - All the text has the same height (max_h)
+    # - The image is max_h+max_y units tall
+    # - The real image will be scale*max_y inches tall
+    # - Therefore one unit = ...
+    ratio = (scale*max_y)/(max_y+max_h)
+    #   inchs.
+    # - Now we want to scale the text size, in inches, so that
+    #   the height of the text (in inches) is approximately the height
+    #   we already have in 'units'. We'll fudge font size = font height,
+    #   then use the padding factor to scale the text. Bigger padding,
+    #   smaller font relative to its box.
+    fsize = (1.0/labelpad) * max_h * (scale*max_y)/(max_y+max_h) * inch
+    # Determine the background, if we want one
+    bg = background == nothing ? [] : [rectangle(), fill(background)]
     c = compose(
         context(units=UnitBox(-max_w/2,-max_h/2,max_x+max_w,max_y+max_h)),
-        font("sans"), fontsize(8.0pt),
-        rectangle(), fill("#FAFAFA"),
-        verts..., arrows...
+        font("sans"), fontsize(fsize),
+        bg..., verts..., arrows...
     )
     # 5.4   Draw it
     if filename != ""
@@ -125,19 +153,13 @@ end
     Arguments:
     x,y             Center of rectangle/text (in context units)
     label           The text inside the rectangle
-    pad             Padding factor, default = 1.1           
-    font_size       Size of font, default = 8pt
-    font_face       Font to use, default = "sans"
+    width, height   The size of the rectangle
 """ ->
-function _tree_textrect(x, y, label, pad=1.2, font_size=8.0pt, font_face="sans")
-    width, height = text_extents(font_face, font_size, label)[1]
-    width, height = pad*width, pad*height
-    compose(
+_tree_textrect(x, y, label, width, height) = compose(
         context(x - width/2, y - height/2, width, height),
         (context(), text(0.5w, 0.5h, label, hcenter, vcenter), fill("black")),
         (context(), rectangle(), fill("white"), stroke("black"))
     )
-end
 
 
 
@@ -152,12 +174,13 @@ function _arrow_tree(o_x, o_y, o_h, d_x, d_y, d_h)
     x1, y1 = o_x, o_y + o_h/2
     x2, y2 = d_x, d_y - d_h/2
     Δx, Δy = x2 - x1, y2 - y1
-    θ = atan2(Δy,Δx)
+    θ = atan2(Δy, Δx)
     # Put an arrow head only if destination isn't dummy
     head = d_h != 0 ? _arrow_heads(θ, x2, y2, 2) : []
     compose(context(), stroke("black"),
         line([(x1,y1),(x2,y2)]), head...)
 end
+
 
 
 @doc """

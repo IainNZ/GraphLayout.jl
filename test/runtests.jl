@@ -48,6 +48,9 @@ facts("Random graph") do
     end
 end
 
+# Trees
+include("test_tree.jl")
+
 ###############################################################################
 
 #Check that output agrees with cached data
@@ -77,5 +80,7 @@ if length(differentfiles)>0
         differentfiles)
     error(string("Generated output differs from cached test output:\n",
         join(differentfiles, "\n"), "\n\n", join(diffs, "\n")))
+else
+    println("All files matched!")
 end
 

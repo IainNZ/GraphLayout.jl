@@ -32,4 +32,4 @@ for i in 1:size(adj_matrix,1)
     push!(adj_list, new_list)
 end
 
-GraphLayout.layout_tree(adj_list, cycles=false, labels=labels, filename="tree.svg")
+layout_tree(adj_list, labels, cycles=false, filename="gadfly_tree.svg")
