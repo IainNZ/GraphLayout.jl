@@ -1,6 +1,6 @@
 using Compose
-import Color
-typealias ComposeColor Union(Color.ColorValue, Color.AlphaColorValue, Color.String)
+import Colors
+typealias ComposeColor Union(Colors.Color, Colors.AlphaColor, Colors.String)
 
 @doc """
 Given an adjacency matrix and two vectors of X and Y coordinates, returns
