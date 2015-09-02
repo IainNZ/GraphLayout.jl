@@ -2,10 +2,10 @@ module GraphLayout
     if VERSION < v"0.4.0"
         using Docile
     end
-    using Requires  # to optionally load JuMP
     using Compose  # for plotting features
 
     typealias AdjList{T} Vector{Vector{T}}
+    export AdjList
 
     # Spring-based force layout algorithms
     export layout_spring_adj
@@ -21,8 +21,7 @@ module GraphLayout
     # Heuristic algortihms for tree layout
     include("tree_heur.jl")
     # Optimal algorithms for tree layout, that require JuMP
-    # JuMP will only be loaded if these methods are requested
-    @require JuMP include(joinpath(Pkg.dir("GraphLayout","src","tree_opt.jl")))
+    include("tree_opt.jl")
 
     # Drawing utilities
     export draw_layout_adj
