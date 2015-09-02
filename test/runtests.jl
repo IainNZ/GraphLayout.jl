@@ -1,5 +1,6 @@
 using FactCheck
 using GraphLayout
+using JuMP
 
 srand(1)
 
