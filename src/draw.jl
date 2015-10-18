@@ -1,6 +1,6 @@
 using Compose
 import Colors
-typealias ComposeColor Union(Colors.Color, Colors.AlphaColor, Colors.String)
+typealias ComposeColor Union{Colors.Color, Colors.AlphaColor, Colors.AbstractString}
 
 @doc """
 Given an adjacency matrix and two vectors of X and Y coordinates, returns
@@ -25,7 +25,7 @@ function compose_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2},
     locs_x::Vector{T}, locs_y::Vector{T};
     labels::Vector=Any[],
-    filename::String="",
+    filename::AbstractString="",
     labelc::ComposeColor="#000000",
     nodefillc::ComposeColor="#AAAAFF",
     nodestrokec::ComposeColor="#BBBBBB",
@@ -137,7 +137,7 @@ function draw_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2},
     locs_x::Vector{T}, locs_y::Vector{T};
     labels::Vector=Any[],
-    filename::String="",
+    filename::AbstractString="",
     labelc::ComposeColor="#000000",
     nodefillc::ComposeColor="#AAAAFF",
     nodestrokec::ComposeColor="#BBBBBB",
