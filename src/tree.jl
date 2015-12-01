@@ -96,10 +96,12 @@ function layout_tree{T}(adj_list::AdjList{T},
     # here is just arbitrary, and unchanging. This hack arises because it
     # is meaningless to ask for the size of the font in "relative" units
     # but we don't want to collapse to absolute units until the end.
+    
+    # .abs -> .value due to changes in Measures.jl package
     if length(labels) == orig_n
         extents = text_extents("sans",10pt,labels...)
         for (i,(width,height)) in enumerate(extents)
-            widths[i], heights[i] = width.abs, height.abs
+            widths[i], heights[i] = width.value, height.value
         end
     end
     locs_x = _coord_ip(adj_list, layers, layer_verts, orig_n, widths, xsep)

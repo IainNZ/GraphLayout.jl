@@ -11,7 +11,7 @@ facts("Render a pentagon") do
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_spring.svg")
 
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_labeled.svg",
-        	labels=[1:5], labelsize=2.0)
+        	labels=collect(1:5), labelsize=2.0)
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_noarrows.svg",
         	arrowlengthfrac=0.0)
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_longarrows.svg",
