@@ -21,6 +21,8 @@ module GraphLayout
     # Tree layout algorithms
     export layout_tree
     include("tree.jl")
+    # Optimization algorithm for tree layout
+    include("tree_opt.jl")
     # Heuristic algortihms for tree layout
     include("tree_heur.jl")
     # Optimal algorithms for tree layout, that require JuMP

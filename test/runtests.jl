@@ -25,7 +25,7 @@ facts("Render a pentagon") do
 
     context("layout_stressmajorize_adj") do
         X = layout_stressmajorize_adj(adj_matrix)
-        draw_layout_adj(adj_matrix, X[:,1], X[:,2], filename="pentagon_stress.svg", 
+        draw_layout_adj(adj_matrix, X[:,1], X[:,2], filename="pentagon_stress.svg",
                 width=4inch, height=4inch)
     end
 end
@@ -67,7 +67,7 @@ include("test_tree.jl")
 #Check that output agrees with cached data
 #Compare with cached output
 cachedout = joinpath(Pkg.dir("GraphLayout"), "test", "examples")
-differentfiles = String[]
+differentfiles = AbstractString[]
 if VERSION > v"0.4.0-" #Changes to RNG mean that the tests only work on 0.4
     for output in readdir(".")
         endswith(output, ".svg") || continue
