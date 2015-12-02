@@ -144,9 +144,13 @@ function draw_layout_adj{S, T<:Real}(
     edgestrokec::ComposeColor="#BBBBBB",
     labelsize::Real=4.0,
     arrowlengthfrac::Real=0.1,
-    angleoffset=20.0/180.0*π)
+    angleoffset=20.0/180.0*π,
+    width=8inch,
+    height=8inch)
 
-    draw(filename == "" ? SVG(8inch, 8inch) : SVG(filename, 8inch, 8inch),
+    # earlier versions used 4inch SVGs so it needs to be adjusted for consistency
+
+    draw(filename == "" ? SVG(width, height) : SVG(filename, width, height),
         compose_layout_adj(adj_matrix, locs_x, locs_y, labels=labels,
             labelc=labelc, nodefillc=nodefillc, nodestrokec=nodestrokec,
             edgestrokec=edgestrokec, labelsize=labelsize,

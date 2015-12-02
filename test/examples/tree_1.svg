@@ -8,53 +8,53 @@
      stroke-width="0.3"
      font-size="3.88"
 >
-<g font-size="11.94" font-family="sans" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-1">
-  <g stroke="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-2">
-    <path fill="none" d="M79.52,84.51 L 72.87 87.27 76 79.47"/>
-    <path fill="none" d="M106.62,50.8 L 72.87 87.27"/>
+<g font-size="11.94" font-family="sans" id="img-dfce1711-1">
+  <g stroke="#000000" id="img-dfce1711-2">
+    <path fill="none" d="M109.3,79.21 L 106.62 87.27 103.94 79.21"/>
+    <path fill="none" d="M106.62,50.8 L 106.62 87.27"/>
   </g>
-  <g stroke="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-3">
-    <path fill="none" d="M75.55,79.21 L 72.87 87.27 70.18 79.21"/>
-    <path fill="none" d="M72.87,57.96 L 72.87 87.27"/>
+  <g stroke="#000000" id="img-dfce1711-3">
+    <path fill="none" d="M102.84,79.92 L 106.62 87.27 99.77 85.4"/>
+    <path fill="none" d="M72.87,57.96 L 106.62 87.27"/>
   </g>
-  <g stroke="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-4">
-    <path fill="none" d="M68.02,80.96 L 72.87 87.27 65.86 87.07"/>
-    <path fill="none" d="M19.56,57.96 L 72.87 87.27"/>
+  <g stroke="#000000" id="img-dfce1711-4">
+    <path fill="none" d="M101.07,81.94 L 106.62 87.27 99.67 88.39"/>
+    <path fill="none" d="M19.56,57.96 L 106.62 87.27"/>
   </g>
-  <g stroke="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-5">
-    <path fill="none" d="M72.87,14.33 L 106.62 50.8"/>
+  <g stroke="#000000" id="img-dfce1711-5">
+    <path fill="none" d="M106.62,14.33 L 106.62 50.8"/>
   </g>
-  <g stroke="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-6">
-    <path fill="none" d="M75.55,35.57 L 72.87 43.64 70.18 35.57"/>
-    <path fill="none" d="M72.87,14.33 L 72.87 43.64"/>
+  <g stroke="#000000" id="img-dfce1711-6">
+    <path fill="none" d="M79.71,41.76 L 72.87 43.64 76.64 36.28"/>
+    <path fill="none" d="M106.62,14.33 L 72.87 43.64"/>
   </g>
-  <g stroke="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-7">
-    <path fill="none" d="M26.57,43.43 L 19.56 43.64 24.4 37.32"/>
-    <path fill="none" d="M72.87,14.33 L 19.56 43.64"/>
+  <g stroke="#000000" id="img-dfce1711-7">
+    <path fill="none" d="M26.51,44.76 L 19.56 43.64 25.11 38.31"/>
+    <path fill="none" d="M106.62,14.33 L 19.56 43.64"/>
   </g>
-  <g stroke="#000000" fill="#FFFFFF" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-8">
-    <rect x="55.3" y="87.27" width="35.14" height="14.33"/>
+  <g stroke="#000000" fill="#FFFFFF" id="img-dfce1711-8">
+    <rect x="89.05" y="87.27" width="35.14" height="14.33"/>
   </g>
-  <g fill="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-9">
-    <text x="72.87" y="94.44" text-anchor="middle" dy="0.35em">Durian</text>
+  <g fill="#000000" id="img-dfce1711-9">
+    <text x="106.62" y="94.44" text-anchor="middle" dy="0.35em">Durian</text>
   </g>
-  <g stroke="#000000" fill="#FFFFFF" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-10">
+  <g stroke="#000000" fill="#FFFFFF" id="img-dfce1711-10">
     <rect x="56.64" y="43.64" width="32.45" height="14.33"/>
   </g>
-  <g fill="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-11">
+  <g fill="#000000" id="img-dfce1711-11">
     <text x="72.87" y="50.8" text-anchor="middle" dy="0.35em">Carrot</text>
   </g>
-  <g stroke="#000000" fill="#FFFFFF" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-12">
+  <g stroke="#000000" fill="#FFFFFF" id="img-dfce1711-12">
     <rect x="0" y="43.64" width="39.11" height="14.33"/>
   </g>
-  <g fill="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-13">
+  <g fill="#000000" id="img-dfce1711-13">
     <text x="19.56" y="50.8" text-anchor="middle" dy="0.35em">Banana</text>
   </g>
-  <g stroke="#000000" fill="#FFFFFF" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-14">
-    <rect x="57.6" y="0" width="30.52" height="14.33"/>
+  <g stroke="#000000" fill="#FFFFFF" id="img-dfce1711-14">
+    <rect x="91.36" y="0" width="30.52" height="14.33"/>
   </g>
-  <g fill="#000000" id="fig-75b6ff004fd14dfca1ae4d5432a32730-element-15">
-    <text x="72.87" y="7.16" text-anchor="middle" dy="0.35em">Apple</text>
+  <g fill="#000000" id="img-dfce1711-15">
+    <text x="106.62" y="7.16" text-anchor="middle" dy="0.35em">Apple</text>
   </g>
 </g>
 </svg>
