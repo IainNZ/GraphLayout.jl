@@ -132,6 +132,8 @@ Arguments:
     arrowlengthfrac  Fraction of line length to use for arrows.
                      Set to 0 for no arrows. Default: 0.1
     angleoffset      angular width in radians for the arrows. Default: π/9 (20 degrees).
+    width            Width in millimeters of the resulting SVG image
+    height           Height in millimeters of the resulting SVG image
 """ ->
 function draw_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2},
@@ -144,9 +146,19 @@ function draw_layout_adj{S, T<:Real}(
     edgestrokec::ComposeColor="#BBBBBB",
     labelsize::Real=4.0,
     arrowlengthfrac::Real=0.1,
+    width=8inch,
+    height=8inch,
     angleoffset=20.0/180.0*π)
 
-    draw(filename == "" ? SVG(8inch, 8inch) : SVG(filename, 8inch, 8inch),
+    # provide width and height with units if necessary
+    if typeof(width) <: Number
+      width *= mm
+    end
+    if typeof(height) <: Number
+      height *= mm
+    end
+
+    draw(filename == "" ? SVG(width, height) : SVG(filename, width, height),
         compose_layout_adj(adj_matrix, locs_x, locs_y, labels=labels,
             labelc=labelc, nodefillc=nodefillc, nodestrokec=nodestrokec,
             edgestrokec=edgestrokec, labelsize=labelsize,
