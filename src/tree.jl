@@ -99,7 +99,7 @@ function layout_tree{T}(adj_list::AdjList{T},
     if length(labels) == orig_n
         extents = text_extents("sans",10pt,labels...)
         for (i,(width,height)) in enumerate(extents)
-            widths[i], heights[i] = width.abs, height.abs
+            widths[i], heights[i] = width.value, height.value
         end
     end
     locs_x = _coord_ip(adj_list, layers, layer_verts, orig_n, widths, xsep)
