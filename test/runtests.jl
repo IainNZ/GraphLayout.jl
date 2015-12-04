@@ -57,7 +57,7 @@ facts("Random graph") do
     end
 
     context("layout_stressmajorize_adj") do
-        X = layout_stressmajorize_adj(adj_matrix)
+        X = layout_stressmajorize_adj(adj_matrix, maxiter=40000)
         draw_layout_adj(adj_matrix, X[:,1], X[:,2], filename="random_stress.svg",
             width=4inch,
             height=4inch)
