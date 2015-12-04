@@ -7,7 +7,6 @@ module GraphLayout
         using Docile
     end
 
-    using Requires  # to optionally load JuMP
     using Compose  # for plotting features
     using Compat # typealiases and @compat for Union
 

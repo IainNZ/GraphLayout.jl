@@ -152,12 +152,8 @@ function draw_layout_adj{S, T<:Real}(
     angleoffset=20.0/180.0*π)
 
     # provide width and height with units if necessary
-    if typeof(width) <: Number
-      width *= mm
-    end
-    if typeof(height) <: Number
-      height *= mm
-    end
+    typeof(width) <: Number && (width *= mm)
+    typeof(height) <: Number && (height *= mm)
 
     draw(filename == "" ? SVG(width, height) : SVG(filename, width, height),
         compose_layout_adj(adj_matrix, locs_x, locs_y, labels=labels,
