@@ -1,6 +1,7 @@
 using Compose
 import Colors
-typealias ComposeColor Union(Colors.Color, Colors.AlphaColor, Colors.String)
+
+@compat typealias ComposeColor Union{Colors.Color, Colors.AlphaColor, Colors.AbstractString}
 
 @doc """
 Given an adjacency matrix and two vectors of X and Y coordinates, returns
@@ -25,7 +26,7 @@ function compose_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2},
     locs_x::Vector{T}, locs_y::Vector{T};
     labels::Vector=Any[],
-    filename::String="",
+    filename::AbstractString="",
     labelc::ComposeColor="#000000",
     nodefillc::ComposeColor="#AAAAFF",
     nodestrokec::ComposeColor="#BBBBBB",
@@ -132,21 +133,29 @@ Arguments:
     arrowlengthfrac  Fraction of line length to use for arrows.
                      Set to 0 for no arrows. Default: 0.1
     angleoffset      angular width in radians for the arrows. Default: π/9 (20 degrees).
+    width            Width in millimeters of the resulting SVG image
+    height           Height in millimeters of the resulting SVG image
 """ ->
 function draw_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2},
     locs_x::Vector{T}, locs_y::Vector{T};
     labels::Vector=Any[],
-    filename::String="",
+    filename::AbstractString="",
     labelc::ComposeColor="#000000",
     nodefillc::ComposeColor="#AAAAFF",
     nodestrokec::ComposeColor="#BBBBBB",
     edgestrokec::ComposeColor="#BBBBBB",
     labelsize::Real=4.0,
     arrowlengthfrac::Real=0.1,
+    width=8inch,
+    height=8inch,
     angleoffset=20.0/180.0*π)
 
-    draw(filename == "" ? SVG(8inch, 8inch) : SVG(filename, 8inch, 8inch),
+    # provide width and height with units if necessary
+    typeof(width) <: Number && (width *= mm)
+    typeof(height) <: Number && (height *= mm)
+
+    draw(filename == "" ? SVG(width, height) : SVG(filename, width, height),
         compose_layout_adj(adj_matrix, locs_x, locs_y, labels=labels,
             labelc=labelc, nodefillc=nodefillc, nodestrokec=nodestrokec,
             edgestrokec=edgestrokec, labelsize=labelsize,

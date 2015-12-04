@@ -1,3 +1,12 @@
+# Uses a macro to switch between .abs or .value depending on Compose version
+macro raw_measure(m)
+    if Pkg.installed("Compose") > v"0.3.18"
+        return :($m.value)
+    else
+        return :($m.abs)
+    end
+end
+
 @doc """
     Hierachical drawing of directed graphs inspired by the Sugiyama framework.
     In particular see Chapter 13 of 'Hierachical Drawing Algorithms' from
@@ -96,10 +105,12 @@ function layout_tree{T}(adj_list::AdjList{T},
     # here is just arbitrary, and unchanging. This hack arises because it
     # is meaningless to ask for the size of the font in "relative" units
     # but we don't want to collapse to absolute units until the end.
+
     if length(labels) == orig_n
         extents = text_extents("sans",10pt,labels...)
         for (i,(width,height)) in enumerate(extents)
-            widths[i], heights[i] = width.abs, height.abs
+            widths[i] = @raw_measure width
+            heights[i] = @raw_measure height
         end
     end
     locs_x = _coord_ip(adj_list, layers, layer_verts, orig_n, widths, xsep)

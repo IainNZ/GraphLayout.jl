@@ -1,9 +1,14 @@
+
+VERSION >= v"0.4.0" && __precompile__(true)
+
 module GraphLayout
+    
     if VERSION < v"0.4.0"
         using Docile
     end
-    using Requires  # to optionally load JuMP
+
     using Compose  # for plotting features
+    using Compat # typealiases and @compat for Union
 
     typealias AdjList{T} Vector{Vector{T}}
 
@@ -22,7 +27,8 @@ module GraphLayout
     include("tree_heur.jl")
     # Optimal algorithms for tree layout, that require JuMP
     # JuMP will only be loaded if these methods are requested
-    @require JuMP include(joinpath(Pkg.dir("GraphLayout","src","tree_opt.jl")))
+    #@require JuMP include(joinpath(Pkg.dir("GraphLayout","src","tree_opt.jl")))
+    include("tree_opt.jl")
 
     # Drawing utilities
     export draw_layout_adj
