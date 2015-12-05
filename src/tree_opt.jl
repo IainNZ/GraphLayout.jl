@@ -96,7 +96,7 @@ function _ordering_ip{T}(adj_list::AdjList{T}, layers, layer_verts)
         for (p,i) in enumerate(old_perm)
             for j in old_perm
                 i == j && continue
-                if iround(x_sol[L,i,j]) == 1
+                if round(Integer, x_sol[L,i,j]) == 1
                     # i appears before j
                     scores[p] += 1
                 end
