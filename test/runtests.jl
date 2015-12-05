@@ -1,6 +1,6 @@
 using FactCheck
 using GraphLayout
-using JuMP # Needed to trigger @require macro
+using JuMP  # Needed to trigger @require macro
 
 srand(1)
 
@@ -58,16 +58,14 @@ include("test_tree.jl")
 #Compare with cached output
 cachedout = joinpath(Pkg.dir("GraphLayout"), "test", "examples")
 differentfiles = AbstractString[]
-if VERSION > v"0.4.0-" #Changes to RNG mean that the tests only work on 0.4
-    for output in readdir(".")
-        endswith(output, ".svg") || continue
-        cached = open(readall, joinpath(cachedout, output))
-        genned = open(readall, joinpath(output))
-        if cached != genned
-            push!(differentfiles, output)
-        else #Delete generated file
-            rm(output)
-        end
+for output in readdir(".")
+    endswith(output, ".svg") || continue
+    cached = open(readall, joinpath(cachedout, output))
+    genned = open(readall, joinpath(output))
+    if cached != genned
+        push!(differentfiles, output)
+    else #Delete generated file
+        rm(output)
     end
 end
 
@@ -84,4 +82,3 @@ if length(differentfiles)>0
 else
     println("All files matched!")
 end
-

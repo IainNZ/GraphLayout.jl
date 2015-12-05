@@ -1,9 +1,9 @@
-@doc """
+"""
     Assigns layers using the longest path method.
 
     Arguments:
     adj_list        Directed graph in adjacency list format
-""" ->
+"""
 function _layer_assmt_longestpath{T}(adj_list::AdjList{T})
     n = length(adj_list)
     layers = fill(-1, n)

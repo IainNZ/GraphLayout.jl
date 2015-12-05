@@ -1,5 +1,3 @@
-julia 0.3
-Docile
+julia 0.4
 Requires
-Compose
-Compat
+Compose 0.4
