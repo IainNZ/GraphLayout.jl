@@ -1,10 +1,10 @@
 using Compose
 import Colors
-@compat typealias ComposeColor Union{Colors.Color, 
-                                     Colors.AlphaColor, 
-                                     Colors.AbstractString}
+typealias ComposeColor Union{Colors.Color,
+                             Colors.AlphaColor,
+                             Colors.AbstractString}
 
-@doc """
+"""
 Given an adjacency matrix and two vectors of X and Y coordinates, returns
 a Compose tree of the graph layout
 
@@ -22,7 +22,7 @@ Arguments:
                      Set to 0 for no arrows. Default: 0.1
     angleoffset      angular width in radians for the arrows. Default: π/9 (20 degrees).
 
-""" ->
+"""
 function compose_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2},
     locs_x::Vector{T}, locs_y::Vector{T};
@@ -113,11 +113,9 @@ function lineij(locs_x, locs_y, i, j, NODESIZE, ARROWLENGTH, angleoffset)
     return composenode
 end
 
-@doc """
+"""
 Given an adjacency matrix and two vectors of X and Y coordinates, returns
 an SVG of the graph layout.
-
-Requires Compose.jl
 
 Arguments:
     adj_matrix       Adjacency matrix of some type. Non-zero of the eltype
@@ -134,7 +132,7 @@ Arguments:
     arrowlengthfrac  Fraction of line length to use for arrows.
                      Set to 0 for no arrows. Default: 0.1
     angleoffset      angular width in radians for the arrows. Default: π/9 (20 degrees).
-""" ->
+"""
 function draw_layout_adj{S, T<:Real}(
     adj_matrix::Array{S,2},
     locs_x::Vector{T}, locs_y::Vector{T};

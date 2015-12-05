@@ -1,4 +1,4 @@
-@doc """
+"""
 Compute graph layout using stress majorization
 
 Inputs:
@@ -51,7 +51,7 @@ Reference:
         publisher={Springer Berlin Heidelberg},
         pages={239--250},
     }
-""" ->
+"""
 function layout_stressmajorize_adj(δ, p::Int=2, w=nothing, X0=randn(size(δ, 1), p);
         maxiter = 400size(X0, 1)^2, abstols=√(eps(eltype(X0))),
         reltols=√(eps(eltype(X0))), abstolx=√(eps(eltype(X0))),
@@ -162,5 +162,3 @@ function LZ(Z, d, w)
     @assert all(isfinite(L))
     L
 end
-
-

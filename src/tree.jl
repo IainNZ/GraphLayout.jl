@@ -1,13 +1,4 @@
-# Uses a macro to switch between .abs and .value depending on Compose version
-macro raw_measure(m)
-    if Pkg.installed("Compose") > v"0.3.18"
-        return :($m.value)
-    else
-        return :($m.abs)
-    end
-end
-
-@doc """
+"""
     Hierachical drawing of directed graphs inspired by the Sugiyama framework.
     In particular see Chapter 13 of 'Hierachical Drawing Algorithms' from
     the 'Handbook of Graph Drawing and Visualization' and the article
@@ -44,7 +35,7 @@ end
     labelpad        Padding around text in vertices
     background      Defaults to nothing. If not-nothing, that value
                     will be used for the background color
-""" ->
+"""
 function layout_tree{T}(adj_list::AdjList{T},
                         labels::Vector;
                         filename    = "",
@@ -87,7 +78,7 @@ function layout_tree{T}(adj_list::AdjList{T},
     elseif ordering == :optimal
         layer_verts = _ordering_ip(adj_list, layers, layer_verts)
     end
-    
+
 
     # 4     Vertex coordinates [to straighten edges]
     # 4.1   Place y coordinates in layers
@@ -108,8 +99,8 @@ function layout_tree{T}(adj_list::AdjList{T},
     if length(labels) == orig_n
         extents = text_extents("sans",10pt,labels...)
         for (i,(width,height)) in enumerate(extents)
-            widths[i] = @raw_measure width
-            heights[i] = @raw_measure height
+            widths[i]  = width.value
+            heights[i] = height.value
         end
     end
     locs_x = _coord_ip(adj_list, layers, layer_verts, orig_n, widths, xsep)

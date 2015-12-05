@@ -2,81 +2,98 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
      version="1.2"
-     width="101.6mm" height="101.6mm" viewBox="0 0 101.6 101.6"
+     width="203.2mm" height="203.2mm" viewBox="0 0 203.2 203.2"
      stroke="none"
      fill="#000000"
      stroke-width="0.3"
      font-size="3.88"
 >
-<g stroke-width="1.34" stroke="#BBBBBB" id="fig-75c53f109ef94524ba6dd369da3caab9-element-1">
-  <path fill="none" d="M42.06,16.57 L 44.8 11.59"/>
-  <path fill="none" d="M39.5,13.65 L 44.8 11.59"/>
-  <path fill="none" d="M8.47,43.44 L 44.8 11.59"/>
-  <path fill="none" d="M83.25,39.3 L 88.42 36.93"/>
-  <path fill="none" d="M82.94,35.43 L 88.42 36.93"/>
-  <path fill="none" d="M8.47,43.44 L 88.42 36.93"/>
-  <path fill="none" d="M71.35,85.17 L 76.91 86.36"/>
-  <path fill="none" d="M73.42,81.87 L 76.91 86.36"/>
-  <path fill="none" d="M8.47,43.44 L 76.91 86.36"/>
-  <path fill="none" d="M23.01,84.53 L 26.81 88.75"/>
-  <path fill="none" d="M26.61,83.07 L 26.81 88.75"/>
-  <path fill="none" d="M8.47,43.44 L 26.81 88.75"/>
-  <path fill="none" d="M14.76,35.34 L 12.03 40.32"/>
-  <path fill="none" d="M17.32,38.26 L 12.03 40.32"/>
-  <path fill="none" d="M48.35,8.47 L 12.03 40.32"/>
-  <path fill="none" d="M83.57,32.84 L 89.12 34.03"/>
-  <path fill="none" d="M85.63,29.55 L 89.12 34.03"/>
-  <path fill="none" d="M48.35,8.47 L 89.12 34.03"/>
-  <path fill="none" d="M75.34,80.27 L 79.14 84.48"/>
-  <path fill="none" d="M78.94,78.81 L 79.14 84.48"/>
-  <path fill="none" d="M48.35,8.47 L 79.14 84.48"/>
-  <path fill="none" d="M28.98,82.89 L 29.66 88.52"/>
-  <path fill="none" d="M32.77,83.77 L 29.66 88.52"/>
-  <path fill="none" d="M48.35,8.47 L 29.66 88.52"/>
-  <path fill="none" d="M18.35,40.69 L 13.18 43.06"/>
-  <path fill="none" d="M18.66,44.56 L 13.18 43.06"/>
-  <path fill="none" d="M93.13,36.55 L 13.18 43.06"/>
-  <path fill="none" d="M57.92,12.17 L 52.36 10.98"/>
-  <path fill="none" d="M55.85,15.46 L 52.36 10.98"/>
-  <path fill="none" d="M93.13,36.55 L 52.36 10.98"/>
-  <path fill="none" d="M81.32,78.62 L 81.99 84.26"/>
-  <path fill="none" d="M85.1,79.51 L 81.99 84.26"/>
-  <path fill="none" d="M93.13,36.55 L 81.99 84.26"/>
-  <path fill="none" d="M34.88,85.03 L 32.14 90.01"/>
-  <path fill="none" d="M37.44,87.96 L 32.14 90.01"/>
-  <path fill="none" d="M93.13,36.55 L 32.14 90.01"/>
-  <path fill="none" d="M18.03,47.15 L 12.48 45.96"/>
-  <path fill="none" d="M15.97,50.44 L 12.48 45.96"/>
-  <path fill="none" d="M80.92,88.87 L 12.48 45.96"/>
-  <path fill="none" d="M53.93,17.07 L 50.13 12.85"/>
-  <path fill="none" d="M50.33,18.53 L 50.13 12.85"/>
-  <path fill="none" d="M80.92,88.87 L 50.13 12.85"/>
-  <path fill="none" d="M92.74,46.8 L 92.06 41.16"/>
-  <path fill="none" d="M88.95,45.91 L 92.06 41.16"/>
-  <path fill="none" d="M80.92,88.87 L 92.06 41.16"/>
-  <path fill="none" d="M38.46,90.38 L 33.3 92.75"/>
-  <path fill="none" d="M38.78,94.25 L 33.3 92.75"/>
-  <path fill="none" d="M80.92,88.87 L 33.3 92.75"/>
-  <path fill="none" d="M14.05,52.05 L 10.24 47.83"/>
-  <path fill="none" d="M10.45,53.5 L 10.24 47.83"/>
-  <path fill="none" d="M28.59,93.13 L 10.24 47.83"/>
-  <path fill="none" d="M47.96,18.71 L 47.28 13.08"/>
-  <path fill="none" d="M44.17,17.83 L 47.28 13.08"/>
-  <path fill="none" d="M28.59,93.13 L 47.28 13.08"/>
-  <path fill="none" d="M86.84,44.65 L 89.57 39.67"/>
-  <path fill="none" d="M84.28,41.73 L 89.57 39.67"/>
-  <path fill="none" d="M28.59,93.13 L 89.57 39.67"/>
-  <path fill="none" d="M71.04,91.62 L 76.2 89.25"/>
-  <path fill="none" d="M70.72,87.75 L 76.2 89.25"/>
-  <path fill="none" d="M28.59,93.13 L 76.2 89.25"/>
+<g stroke-width="1.34" stroke="#BBBBBB" id="img-75c53f10-1">
+  <path fill="none" d="M84.13,33.13 L 89.59 23.17"/>
+  <path fill="none" d="M79,27.29 L 89.59 23.17"/>
+  <path fill="none" d="M16.93,86.88 L 89.59 23.17"/>
+  <path fill="none" d="M166.51,78.6 L 176.83 73.86"/>
+  <path fill="none" d="M165.88,70.86 L 176.83 73.86"/>
+  <path fill="none" d="M16.93,86.88 L 176.83 73.86"/>
+  <path fill="none" d="M142.71,170.33 L 153.81 172.71"/>
+  <path fill="none" d="M146.84,163.75 L 153.81 172.71"/>
+  <path fill="none" d="M16.93,86.88 L 153.81 172.71"/>
+  <path fill="none" d="M46.01,169.06 L 53.62 177.49"/>
+  <path fill="none" d="M53.21,166.14 L 53.62 177.49"/>
+  <path fill="none" d="M16.93,86.88 L 53.62 177.49"/>
+  <path fill="none" d="M29.52,70.68 L 24.05 80.64"/>
+  <path fill="none" d="M34.64,76.53 L 24.05 80.64"/>
+  <path fill="none" d="M96.71,16.93 L 24.05 80.64"/>
+  <path fill="none" d="M167.14,65.69 L 178.25 68.07"/>
+  <path fill="none" d="M171.27,59.1 L 178.25 68.07"/>
+  <path fill="none" d="M96.71,16.93 L 178.25 68.07"/>
+  <path fill="none" d="M150.67,160.53 L 158.28 168.97"/>
+  <path fill="none" d="M157.88,157.61 L 158.28 168.97"/>
+  <path fill="none" d="M96.71,16.93 L 158.28 168.97"/>
+  <path fill="none" d="M57.97,165.77 L 59.32 177.05"/>
+  <path fill="none" d="M65.53,167.54 L 59.32 177.05"/>
+  <path fill="none" d="M96.71,16.93 L 59.32 177.05"/>
+  <path fill="none" d="M36.69,81.38 L 26.37 86.12"/>
+  <path fill="none" d="M37.32,89.12 L 26.37 86.12"/>
+  <path fill="none" d="M186.27,73.09 L 26.37 86.12"/>
+  <path fill="none" d="M115.84,24.34 L 104.73 21.96"/>
+  <path fill="none" d="M111.71,30.92 L 104.73 21.96"/>
+  <path fill="none" d="M186.27,73.09 L 104.73 21.96"/>
+  <path fill="none" d="M162.63,157.24 L 163.99 168.52"/>
+  <path fill="none" d="M170.2,159.01 L 163.99 168.52"/>
+  <path fill="none" d="M186.27,73.09 L 163.99 168.52"/>
+  <path fill="none" d="M69.76,170.07 L 64.29 180.03"/>
+  <path fill="none" d="M74.88,175.91 L 64.29 180.03"/>
+  <path fill="none" d="M186.27,73.09 L 64.29 180.03"/>
+  <path fill="none" d="M36.06,94.29 L 24.95 91.91"/>
+  <path fill="none" d="M31.93,100.87 L 24.95 91.91"/>
+  <path fill="none" d="M161.83,177.74 L 24.95 91.91"/>
+  <path fill="none" d="M107.87,34.14 L 100.26 25.71"/>
+  <path fill="none" d="M100.67,37.06 L 100.26 25.71"/>
+  <path fill="none" d="M161.83,177.74 L 100.26 25.71"/>
+  <path fill="none" d="M185.47,93.59 L 184.11 82.31"/>
+  <path fill="none" d="M177.9,91.82 L 184.11 82.31"/>
+  <path fill="none" d="M161.83,177.74 L 184.11 82.31"/>
+  <path fill="none" d="M76.93,180.76 L 66.61 185.5"/>
+  <path fill="none" d="M77.56,188.5 L 66.61 185.5"/>
+  <path fill="none" d="M161.83,177.74 L 66.61 185.5"/>
+  <path fill="none" d="M28.09,104.09 L 20.49 95.66"/>
+  <path fill="none" d="M20.89,107.01 L 20.49 95.66"/>
+  <path fill="none" d="M57.17,186.27 L 20.49 95.66"/>
+  <path fill="none" d="M95.91,37.43 L 94.56 26.15"/>
+  <path fill="none" d="M88.35,35.66 L 94.56 26.15"/>
+  <path fill="none" d="M57.17,186.27 L 94.56 26.15"/>
+  <path fill="none" d="M173.68,89.29 L 179.15 79.34"/>
+  <path fill="none" d="M168.56,83.45 L 179.15 79.34"/>
+  <path fill="none" d="M57.17,186.27 L 179.15 79.34"/>
+  <path fill="none" d="M142.08,183.25 L 152.4 178.51"/>
+  <path fill="none" d="M141.45,175.5 L 152.4 178.51"/>
+  <path fill="none" d="M57.17,186.27 L 152.4 178.51"/>
 </g>
-<g stroke="#BBBBBB" fill="#AAAAFF" id="fig-75c53f109ef94524ba6dd369da3caab9-element-2">
-  <circle cx="8.47" cy="43.44" r="4.73"/>
-  <circle cx="48.35" cy="8.47" r="4.73"/>
-  <circle cx="93.13" cy="36.55" r="4.73"/>
-  <circle cx="80.92" cy="88.87" r="4.73"/>
-  <circle cx="28.59" cy="93.13" r="4.73"/>
+<g stroke="#BBBBBB" fill="#AAAAFF" id="img-75c53f10-2">
+  <use xlink:href="#img-75c53f10-3" x="16.93" y="86.88"/>
+  <use xlink:href="#img-75c53f10-4" x="96.71" y="16.93"/>
+  <use xlink:href="#img-75c53f10-5" x="186.27" y="73.09"/>
+  <use xlink:href="#img-75c53f10-6" x="161.83" y="177.74"/>
+  <use xlink:href="#img-75c53f10-7" x="57.17" y="186.27"/>
 </g>
-<g font-size="4" stroke="none" fill="#000000" id="fig-75c53f109ef94524ba6dd369da3caab9-element-3">
+<g font-size="4" stroke="#000000" stroke-opacity="0.000" fill="#000000" id="img-75c53f10-8">
 </g>
+<defs>
+  <g id="img-75c53f10-3">
+    <circle cx="0" cy="0" r="9.47"/>
+  </g>
+  <g id="img-75c53f10-4">
+    <circle cx="0" cy="0" r="9.47"/>
+  </g>
+  <g id="img-75c53f10-5">
+    <circle cx="0" cy="0" r="9.47"/>
+  </g>
+  <g id="img-75c53f10-6">
+    <circle cx="0" cy="0" r="9.47"/>
+  </g>
+  <g id="img-75c53f10-7">
+    <circle cx="0" cy="0" r="9.47"/>
+  </g>
+</defs>
 </svg>

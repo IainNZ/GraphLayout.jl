@@ -9,7 +9,7 @@ using JuMP
 ########################################################################
 
 
-@doc """
+"""
     Given a layer assignment, decide a permutation for each layer
     that minimizes edge crossings using integer programming.
 
@@ -28,7 +28,7 @@ using JuMP
 
     Returns:
     new_layer_verts An improved dictionary of layer => vertices (opt. perm.)
-""" ->
+"""
 function _ordering_ip{T}(adj_list::AdjList{T}, layers, layer_verts)
     num_layers = maximum(layers)
 
@@ -145,7 +145,7 @@ function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n, widths,
         for i in 1:length(layer_verts[L])-1
             a = layer_verts[L][i]
             b = layer_verts[L][i+1]
-            @addConstraint(m, x[L,b] - x[L,a] >= 
+            @addConstraint(m, x[L,b] - x[L,a] >=
                 (widths[a] + widths[b])/2 + xsep)
         end
     end
