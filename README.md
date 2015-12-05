@@ -4,7 +4,7 @@ Graph layout and visualization algorithms, implemented in Julia.
 
 [![GraphLayout](http://pkg.julialang.org/badges/GraphLayout_0.3.svg)](http://pkg.julialang.org/?pkg=GraphLayout&ver=0.3)
 [![GraphLayout](http://pkg.julialang.org/badges/GraphLayout_0.4.svg)](http://pkg.julialang.org/?pkg=GraphLayout&ver=0.4)
-[![GraphLayout](http://pkg.julialang.org/badges/GraphLayout_0.4.svg)](http://pkg.julialang.org/?pkg=GraphLayout&ver=0.5)
+[![GraphLayout](http://pkg.julialang.org/badges/GraphLayout_0.5.svg)](http://pkg.julialang.org/?pkg=GraphLayout&ver=0.5)
 
 **Development version**:
 [![Build Status](https://travis-ci.org/IainNZ/GraphLayout.jl.svg?branch=master)](https://travis-ci.org/IainNZ/GraphLayout.jl)
