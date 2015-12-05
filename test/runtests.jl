@@ -1,5 +1,6 @@
 using FactCheck
 using GraphLayout
+using JuMP # Needed to trigger @require macro
 
 srand(1)
 
@@ -11,7 +12,7 @@ facts("Render a pentagon") do
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_spring.svg")
 
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_labeled.svg",
-        	labels=[1:5], labelsize=2.0)
+        	labels=collect(1:5), labelsize=2.0)
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_noarrows.svg",
         	arrowlengthfrac=0.0)
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_longarrows.svg",
@@ -56,7 +57,7 @@ include("test_tree.jl")
 #Check that output agrees with cached data
 #Compare with cached output
 cachedout = joinpath(Pkg.dir("GraphLayout"), "test", "examples")
-differentfiles = String[]
+differentfiles = AbstractString[]
 if VERSION > v"0.4.0-" #Changes to RNG mean that the tests only work on 0.4
     for output in readdir(".")
         endswith(output, ".svg") || continue
