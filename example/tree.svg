@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.2"
+     width="126.17mm" height="101.6mm" viewBox="0 0 126.17 101.6"
+     stroke="none"
+     fill="#000000"
+     stroke-width="0.3"
+     font-size="3.88"
+>
+<g font-size="11.94" font-family="sans" id="img-dfce1711-1">
+  <g stroke="#000000" id="img-dfce1711-2">
+    <path fill="none" d="M79.52,84.51 L 72.87 87.27 76 79.47"/>
+    <path fill="none" d="M106.62,50.8 L 72.87 87.27"/>
+  </g>
+  <g stroke="#000000" id="img-dfce1711-3">
+    <path fill="none" d="M75.55,79.21 L 72.87 87.27 70.18 79.21"/>
+    <path fill="none" d="M72.87,57.96 L 72.87 87.27"/>
+  </g>
+  <g stroke="#000000" id="img-dfce1711-4">
+    <path fill="none" d="M68.02,80.96 L 72.87 87.27 65.86 87.07"/>
+    <path fill="none" d="M19.56,57.96 L 72.87 87.27"/>
+  </g>
+  <g stroke="#000000" id="img-dfce1711-5">
+    <path fill="none" d="M72.87,14.33 L 106.62 50.8"/>
+  </g>
+  <g stroke="#000000" id="img-dfce1711-6">
+    <path fill="none" d="M75.55,35.57 L 72.87 43.64 70.18 35.57"/>
+    <path fill="none" d="M72.87,14.33 L 72.87 43.64"/>
+  </g>
+  <g stroke="#000000" id="img-dfce1711-7">
+    <path fill="none" d="M26.57,43.43 L 19.56 43.64 24.4 37.32"/>
+    <path fill="none" d="M72.87,14.33 L 19.56 43.64"/>
+  </g>
+  <g stroke="#000000" fill="#FFFFFF" id="img-dfce1711-8">
+    <rect x="55.3" y="87.27" width="35.14" height="14.33"/>
+  </g>
+  <g fill="#000000" id="img-dfce1711-9">
+    <text x="72.87" y="94.44" text-anchor="middle" dy="0.35em">Durian</text>
+  </g>
+  <g stroke="#000000" fill="#FFFFFF" id="img-dfce1711-10">
+    <rect x="56.64" y="43.64" width="32.45" height="14.33"/>
+  </g>
+  <g fill="#000000" id="img-dfce1711-11">
+    <text x="72.87" y="50.8" text-anchor="middle" dy="0.35em">Carrot</text>
+  </g>
+  <g stroke="#000000" fill="#FFFFFF" id="img-dfce1711-12">
+    <rect x="0" y="43.64" width="39.11" height="14.33"/>
+  </g>
+  <g fill="#000000" id="img-dfce1711-13">
+    <text x="19.56" y="50.8" text-anchor="middle" dy="0.35em">Banana</text>
+  </g>
+  <g stroke="#000000" fill="#FFFFFF" id="img-dfce1711-14">
+    <rect x="57.6" y="0" width="30.52" height="14.33"/>
+  </g>
+  <g fill="#000000" id="img-dfce1711-15">
+    <text x="72.87" y="7.16" text-anchor="middle" dy="0.35em">Apple</text>
+  </g>
+</g>
+</svg>

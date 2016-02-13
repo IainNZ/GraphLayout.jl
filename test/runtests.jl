@@ -1,12 +1,12 @@
-using FactCheck
+using BaseTestNext
 using GraphLayout
-using JuMP  # Needed to trigger @require macro
-
 srand(1)
 
-facts("Render a pentagon") do
+@testset "GraphLayout.jl" begin
+
+@testset "Render a pentagon" begin
     adj_matrix = ones(5,5) - eye(5,5)
-    context("layout_spring_adj") do
+    @testset "layout_spring_adj" begin
         loc_x, loc_y = layout_spring_adj(adj_matrix)
 
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_spring.svg")
@@ -17,20 +17,18 @@ facts("Render a pentagon") do
         	arrowlengthfrac=0.0)
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="pentagon_longarrows.svg",
         	arrowlengthfrac=0.5)
-    end
+    end  # "layout_spring_adj"
 
-    context("layout_stressmajorize_adj") do
+    @testset "layout_stressmajorize_adj" begin
         X = layout_stressmajorize_adj(adj_matrix)
         draw_layout_adj(adj_matrix, X[:,1], X[:,2], filename="pentagon_stress.svg")
-    end
-end
+    end  # "layout_stressmajorize_adj"
+end  # "Render a pentagon"
 
-
-# Random graph
-facts("Random graph") do
+@testset "Render a random graph" begin
 
     adj_matrix = full(sprand(100,100,0.02))
-    context("layout_spring_adj") do
+    @testset "layout_spring_adj" begin
         loc_x, loc_y = layout_spring_adj(adj_matrix)
 
         draw_layout_adj(adj_matrix, loc_x, loc_y, filename="random_spring.svg")
@@ -43,18 +41,40 @@ facts("Random graph") do
             edgestrokec="#B11B1B")
     end
 
-    context("layout_stressmajorize_adj") do
+    @testset "layout_stressmajorize_adj" begin
         X = layout_stressmajorize_adj(adj_matrix)
         draw_layout_adj(adj_matrix, X[:,1], X[:,2], filename="random_stress.svg")
     end
-end
+end  # "Render a random graph"
 
 # Trees
-include("test_tree.jl")
+@testset "Render a tree" begin
+    adj_list = Vector{Int}[
+        [2,3,4],
+        [4],
+        [4],
+        []
+    ]
+    labels = ["Apple", "Banana", "Carrot", "Durian"]
+
+    layout_tree(adj_list,labels,filename="tree_1.svg",
+                cycles = false, ordering = :optimal, coord = :optimal,
+                xsep = 5, ysep = 10, scale = 0.2, labelpad = 1.2,
+                background = nothing)
+
+    layout_tree(adj_list,labels,filename="tree_2.svg",
+                cycles = false, ordering = :optimal, coord = :optimal,
+                xsep = 1, ysep = 20, scale = 0.1, labelpad = 2,
+                background = "#DDDDFF")
+
+    rm("tree_1.svg")
+    rm("tree_2.svg")
+end
 
 ###############################################################################
 
-#Check that output agrees with cached data
+@testset "Check that output == cached data" begin
+
 #Compare with cached output
 cachedout = joinpath(Pkg.dir("GraphLayout"), "test", "examples")
 differentfiles = AbstractString[]
@@ -83,3 +103,7 @@ if length(differentfiles)>0
 else
     println("All files matched!")
 end
+
+end  # "Check that output == cached data"
+
+end  # "GraphLayout.jl"

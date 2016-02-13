@@ -3,7 +3,6 @@ os:
   - linux
 julia:
   - 0.4
-  - nightly
 notifications:
   email: false
 sudo: false
@@ -15,7 +14,6 @@ addons:
         - libglpk-dev
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-script:
   - julia -e 'Pkg.clone(pwd()); Pkg.build("GraphLayout")'
   - julia -e 'Pkg.test("GraphLayout"; coverage=true)'
 after_success:

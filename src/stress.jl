@@ -91,7 +91,7 @@ function layout_stressmajorize_adj(δ, p::Int=2, w=nothing, X0=randn(size(δ, 1)
     returnall ? (Xs, stresses) : Xs[end]
 end
 
-@doc """
+"""
 Stress function to majorize
 
 Input:
@@ -100,7 +100,7 @@ Input:
     w: Weights for each pairwise distance
 
 See (1) of Reference
-""" ->
+"""
 function stress(X, d=fill(1.0, size(X, 1), size(X, 1)), w=nothing)
     s = 0.0
     n = size(X, 1)
@@ -116,11 +116,11 @@ function stress(X, d=fill(1.0, size(X, 1), size(X, 1)), w=nothing)
     s
 end
 
-@doc """
+"""
 Compute weighted Laplacian given ideal weights w
 
 Lʷ defined in (4) of the Reference
-""" ->
+"""
 function weightedlaplacian(w)
     n = Base.LinAlg.chksquare(w)
     T = eltype(w)
@@ -137,13 +137,13 @@ function weightedlaplacian(w)
     Lw
 end
 
-@doc """
+"""
 Computes L^Z defined in (5) of the Reference
 
 Input: Z: current layout (coordinates)
        d: Ideal distances (default: all 1)
        w: weights (default: d.^-2)
-""" ->
+"""
 function LZ(Z, d, w)
     n = size(Z, 1)
     L = zeros(n, n)

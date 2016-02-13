@@ -3,11 +3,12 @@
 # a user wishes to use these methods then they will need JuMP and an
 # integer programming solver installed, such as GLPK, Cbc, or one of the
 # commercial solvers like Gurobi or CPLEX
-
-using JuMP
-
+# Ideally, only when one of these methods is used will JuMP will be
+# loaded. However, one of the phases only has a JuMP-dependent version
+# so we need to always load JuMP for now.
 ########################################################################
 
+using JuMP
 
 """
     Given a layer assignment, decide a permutation for each layer
@@ -112,7 +113,7 @@ end
 ########################################################################
 
 
-@doc """
+"""
     Given a layer assignment and permutation, decide the coordinates for
     each vertex. The objective is to encourage straight edges, especially
     for longer edges. This function uses an integer program to decide the
@@ -131,7 +132,7 @@ end
 
     Returns:
     layer_coords    For each layer and vertex, the x-coord
-""" ->
+"""
 function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n, widths, xsep)
     num_layers = maximum(layers)
 

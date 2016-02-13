@@ -36,14 +36,14 @@ function _layer_assmt_longestpath_rec{T}(adj_list::AdjList{T}, layers, i)
 end
 
 
-@doc """
+"""
     Given a layer assignment, introduce dummy vertices to break up
     long edges (more than one layer)
 
     Arguments:
     orig_adj_list   Original directed graph in adjacency list format
     layers          Assignment of original vertices
-""" ->
+"""
 function _layer_assmt_dummy{T}(orig_adj_list::AdjList{T}, layers)
     adj_list = deepcopy(orig_adj_list)
 
@@ -68,7 +68,7 @@ function _layer_assmt_dummy{T}(orig_adj_list::AdjList{T}, layers)
 end
 
 
-@doc """
+"""
     Given a layer assignment, decide a permutation for each layer
     that attempts to minimizes edge crossings using the barycenter
     method proposed in the Sugiyama paper.
@@ -77,7 +77,7 @@ end
     adj_list        Directed graph in adjacency list format
     layers          Assignment of vertices
     layer_verts     Dictionary of layer => vertices
-""" ->
+"""
 function _ordering_barycentric{T}(adj_list::AdjList{T}, layers, layer_verts)
     num_layers = maximum(layers)
     n = length(adj_list)
