@@ -1,7 +1,7 @@
 __precompile__(true)
 
 module GraphLayout
-    using Compose   # for plotting features
+    using Compose, GeometryTypes   # for plotting features
 
     typealias AdjList{T} Vector{Vector{T}}
 
