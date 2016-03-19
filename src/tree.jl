@@ -65,7 +65,7 @@ function layout_tree{T<:Integer, R<:SimpleRectangle}(
         labelpad    = 1.2,
     )
     # 1     Cycle removal
-    if cycles # cycles in a tree?
+    if cycles
         # Need to remove cycles first
         error("Cycle removal not implemented!")
     end
