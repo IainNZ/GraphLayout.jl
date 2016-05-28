@@ -7,6 +7,7 @@ module GraphLayout
 
     # Spring-based force layout algorithm
     export layout_spring_adj
+    export layout_spring_adj_3D
     include("spring.jl")
 
     # Stress majorization layout algorithm
