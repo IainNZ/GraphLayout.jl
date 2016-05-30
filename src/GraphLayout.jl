@@ -2,8 +2,23 @@ __precompile__(true)
 
 module GraphLayout
     using Compose   # for plotting features
+    using GeometryTypes   # for generating the layout
 
     typealias AdjList{T} Vector{Vector{T}}
+
+    type Node
+      p::Point
+    end
+
+    type Edge
+      src::Point
+      dest::Point
+    end
+
+    immutable Network
+      Positions::Array{Node}
+      Connections::Array{Edge}
+    end
 
     # Spring-based force layout algorithm
     export layout_spring_adj
