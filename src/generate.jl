@@ -10,4 +10,38 @@ Arguments:
                      but currently no sense of magnitude
     locs_x, locs_y,
     locs_z            Locations of the nodes.
+
+Returns:
+    layout            Layout of the given graph represented as a GraphLayout.Network object.
+
 """
+
+function generate_layout{S, T<:Real}(
+  adj_matrix::Array{S,2},
+  locs_x::Vector{T}, locs_y::Vector{T}, locs_z::Vector{T})
+
+  size(adj_matrix, 1) != size(adj_matrix, 2) && error("Adj. matrix must be square.")
+  const N = length(locs_x)
+  nodes = [Node(Point(locs_x[i], locs_y[i], locs_z[i])) for i in 1:N]
+  edges = find_edges(adj_matrix, nodes)
+  layout = Network(nodes, edges)
+  return layout
+  
+end
+
+function find_edges(adj_matrix, nodes::Array{Node,1})
+
+  size(adj_matrix, 1) != size(adj_matrix, 2) && error("Adj. matrix must be square.")
+  const N = length(nodes)
+  edges = Array{Edge}[]
+  for i = 1:N
+    for j = 1:N
+      i == j && continue
+      if adj_matrix[i,j] != zero(eltype(adj_matrix))
+        push!(edges, nodes[i].p, nodes[j].p)
+      end
+    end
+  end
+  return edges
+
+end

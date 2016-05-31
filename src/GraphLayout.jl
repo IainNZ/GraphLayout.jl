@@ -20,6 +20,8 @@ module GraphLayout
       Connections::Array{Edge}
     end
 
+    export Node, Edge, Network
+
     # Spring-based force layout algorithm
     export layout_spring_adj
     export layout_spring_adj_3D
