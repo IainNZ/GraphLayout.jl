@@ -26,19 +26,19 @@ function generate_layout{S, T<:Real}(
   edges = find_edges(adj_matrix, nodes)
   layout = Network(nodes, edges)
   return layout
-  
+
 end
 
 function find_edges(adj_matrix, nodes::Array{Node,1})
 
   size(adj_matrix, 1) != size(adj_matrix, 2) && error("Adj. matrix must be square.")
   const N = length(nodes)
-  edges = Array{Edge}[]
+  edges = Edge[]
   for i = 1:N
     for j = 1:N
       i == j && continue
       if adj_matrix[i,j] != zero(eltype(adj_matrix))
-        push!(edges, nodes[i].p, nodes[j].p)
+        push!(edges, Edge(nodes[i].p, nodes[j].p))
       end
     end
   end

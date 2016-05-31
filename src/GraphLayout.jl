@@ -42,4 +42,8 @@ module GraphLayout
     # Drawing utilities
     export draw_layout_adj
     include("draw.jl")
+
+    # Generating layout
+    export generate_layout
+    include("generate.jl")
 end
