@@ -86,7 +86,7 @@ function _ordering_ip{T}(adj_list::AdjList{T}, layers, layer_verts)
     solve(m)
 
     # Extract permutation from solution
-    x_sol = getValue(x)
+    x_sol = getvalue(x)
     new_layer_verts = [L => Int[] for L in 1:num_layers]
     for L in 1:num_layers
         old_perm = layer_verts[L]
@@ -186,7 +186,7 @@ function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n, widths,
     solve(m)
 
     # ... and mangle the solution into shape
-    x_sol = getValue(x)
+    x_sol = getvalue(x)
     locs_x = zeros(length(layers))
     for L in 1:num_layers
         for i in layer_verts[L]
