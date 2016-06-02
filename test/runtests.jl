@@ -23,6 +23,13 @@ srand(1)
         X = layout_stressmajorize_adj(adj_matrix)
         draw_layout_adj(adj_matrix, X[:,1], X[:,2], filename="pentagon_stress.svg")
     end  # "layout_stressmajorize_adj"
+
+    @testset "layout_spring_adj_3D" begin
+        loc_x, loc_y, loc_z = layout_spring_adj_3D(adj_matrix)
+        @test size(loc_x) == size(loc_y) == size(loc_z)
+        n = generate_layout(adj_matrix, loc_x, loc_y, loc_z)
+        @test typeof(n) == GraphLayout.Network
+    end
 end  # "Render a pentagon"
 
 @testset "Render a random graph" begin
@@ -44,6 +51,13 @@ end  # "Render a pentagon"
     @testset "layout_stressmajorize_adj" begin
         X = layout_stressmajorize_adj(adj_matrix)
         draw_layout_adj(adj_matrix, X[:,1], X[:,2], filename="random_stress.svg")
+    end
+
+    @testset "layout_spring_adj_3D" begin
+        loc_x, loc_y, loc_z = layout_spring_adj_3D(adj_matrix)
+        @test size(loc_x) == size(loc_y) == size(loc_z)
+        n = generate_layout(adj_matrix, loc_x, loc_y, loc_z)
+        @test typeof(n) == GraphLayout.Network
     end
 end  # "Render a random graph"
 
