@@ -95,6 +95,7 @@ differentfiles = AbstractString[]
 for output in readdir(".")
     endswith(output, ".svg") || continue
     contains(output, "tree") && continue  # don't test trees right now
+    contains(output, "random") && continue  # don't test for random graphs
     cached = open(readall, joinpath(cachedout, output))
     genned = open(readall, joinpath(output))
     if cached != genned
