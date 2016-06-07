@@ -18,7 +18,9 @@ Returns:
 
 function generate_layout{S, T<:Real}(
   adj_matrix::Array{S,2},
-  locs_x::Vector{T}, locs_y::Vector{T}, locs_z=[])
+  locs_x::Vector{T}, locs_y::Vector{T}, locs_z::Vector{T}=T[],
+  directed::Bool=false,
+  )
 
   dim = size(locs_z,1)
   size(adj_matrix, 1) != size(adj_matrix, 2) && error("Adj. matrix must be square.")
@@ -28,13 +30,13 @@ function generate_layout{S, T<:Real}(
   else
     nodes = [Node(Point(locs_x[i], locs_y[i])) for i in 1:N]
   end
-  edges = find_edges(adj_matrix, nodes)
+  edges = find_edges(adj_matrix, nodes, directed)
   layout = Network(nodes, edges)
   return layout
 
 end
 
-function find_edges(adj_matrix, nodes::Array{Node,1})
+function find_edges(adj_matrix, nodes::Array{Node,1}, directed::Bool=false)
 
   size(adj_matrix, 1) != size(adj_matrix, 2) && error("Adj. matrix must be square.")
   const N = length(nodes)
@@ -43,7 +45,7 @@ function find_edges(adj_matrix, nodes::Array{Node,1})
     for j = 1:N
       i == j && continue
       if adj_matrix[i,j] != zero(eltype(adj_matrix))
-        push!(edges, Edge(nodes[i].p, nodes[j].p))
+        push!(edges, Edge(nodes[i].p, nodes[j].p, directed))
       end
     end
   end

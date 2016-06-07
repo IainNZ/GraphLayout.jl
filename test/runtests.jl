@@ -83,6 +83,9 @@ end  # "Render a random graph"
 
     rm("tree_1.svg")
     rm("tree_2.svg")
+
+    n = generate_layout_tree(adj_list,cycles=false)
+    @test typeof(n) == GraphLayout.Network
 end
 
 ###############################################################################

@@ -13,6 +13,7 @@ module GraphLayout
     type Edge
       src::Point
       dest::Point
+      directed::Bool
     end
 
     immutable Network
@@ -46,4 +47,8 @@ module GraphLayout
     # Generating layout
     export generate_layout
     include("generate.jl")
+
+    # Generating tree layout
+    export generate_layout_tree
+    include("tree_layout.jl")
 end
