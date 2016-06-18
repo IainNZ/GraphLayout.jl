@@ -6,13 +6,13 @@ module GraphLayout
 
     typealias AdjList{T} Vector{Vector{T}}
 
-    type Node
+    immutable Node
       p::Point
     end
 
-    type Edge
-      src::Point
-      dest::Point
+    immutable Edge
+      src::Int64  # Index of source node in Positions array
+      dst::Int64  # Index of destination node in Positions array
       directed::Bool
     end
 

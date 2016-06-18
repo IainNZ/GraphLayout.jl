@@ -90,7 +90,7 @@ function generate_layout_tree{T}(adj_list::AdjList{T};
     # 5.2   Create the arrows
     arrows = Edge[]
     for L in 1:num_layers, i in layer_verts[L], j in adj_list[i]
-        push!(arrows, Edge(Point(locs_x[i],locs_y[i]), Point(locs_x[j],locs_y[j]), true))
+        push!(arrows, Edge(i, j, true))
     end
 
     # 5.3 Return the layout
