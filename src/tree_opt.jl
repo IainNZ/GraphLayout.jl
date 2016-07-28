@@ -36,30 +36,30 @@ function _ordering_ip{T}(adj_list::AdjList{T}, layers, layer_verts)
     m = Model()
 
     # Define crossing binary variables
-    @defVar(m, c[L=1:num_layers,        # for each layer
+    @variable(m, c[L=1:num_layers,        # for each layer
                  i=layer_verts[L],      # for each vertex in this layer
                  j=adj_list[i],         # and vertex in the next layer
                  k=layer_verts[L],      # for each vertex in this layer
                  l=adj_list[k]], Bin)   # and vertex in the next layer
 
     # Objective: minimize crossings
-    @setObjective(m, Min, sum(c))
+    @objective(m, Min, sum(c))
 
     # Define permutation variables for each layer
     # We'll define for both (i,j) and (j,i), and ensure they consistency
     # by adding constraints. Presolve in the IP solver will simplify
     # the problem for us by removing one of the variables.
-    @defVar(m, x[L=1:num_layers, i=layer_verts[L], j=layer_verts[L]], Bin)
+    @variable(m, x[L=1:num_layers, i=layer_verts[L], j=layer_verts[L]], Bin)
     for L in 1:num_layers
         for i in layer_verts[L]
             for j in layer_verts[L]
                 j <= i && continue  # Don't double-add
                 # Ensure x[i,j] and x[j,i] are consistent
-                @addConstraint(m, x[L,i,j] == 1 - x[L,j,i])
+                @constraint(m, x[L,i,j] == 1 - x[L,j,i])
                 # And ensure that triples are consistent
                 for k in layer_verts[L]
                     k <= j && continue
-                    @addConstraint(m, 0 <= x[L,i,j] + x[L,j,k] - x[L,i,k] <= 1)
+                    @constraint(m, 0 <= x[L,i,j] + x[L,j,k] - x[L,i,k] <= 1)
                 end
             end
         end
@@ -74,8 +74,8 @@ function _ordering_ip{T}(adj_list::AdjList{T}, layers, layer_verts)
             for k in layer_verts[L]
             k == i && continue  # Can't cross if starting from same vertex!
             for l in adj_list[k]
-                @addConstraint(m, -c[L,i,j,k,l] <= x[L+1,j,l] - x[L,i,k])
-                @addConstraint(m,  c[L,i,j,k,l] >= x[L+1,j,l] - x[L,i,k])
+                @constraint(m, -c[L,i,j,k,l] <= x[L+1,j,l] - x[L,i,k])
+                @constraint(m,  c[L,i,j,k,l] >= x[L+1,j,l] - x[L,i,k])
             end
             end
         end
@@ -86,7 +86,7 @@ function _ordering_ip{T}(adj_list::AdjList{T}, layers, layer_verts)
     solve(m)
 
     # Extract permutation from solution
-    x_sol = getValue(x)
+    x_sol = getvalue(x)
     new_layer_verts = [L => Int[] for L in 1:num_layers]
     for L in 1:num_layers
         old_perm = layer_verts[L]
@@ -139,14 +139,14 @@ function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n, widths,
     m = Model()
 
     # One variable for each vertex
-    @defVar(m, x[L=1:num_layers, i=layer_verts[L]] >= 0)
+    @variable(m, x[L=1:num_layers, i=layer_verts[L]] >= 0)
 
     # Constraint: must respect permutation, and spacign constraint
     for L in 1:num_layers
         for i in 1:length(layer_verts[L])-1
             a = layer_verts[L][i]
             b = layer_verts[L][i+1]
-            @addConstraint(m, x[L,b] - x[L,a] >=
+            @constraint(m, x[L,b] - x[L,a] >=
                 (widths[a] + widths[b])/2 + xsep)
         end
     end
@@ -159,13 +159,13 @@ function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n, widths,
     # We use absolute distance in the objective so we'll need
     # auxilary variables for each pair of edges
     obj = AffExpr()
-    @defVar(m, absdiff[L=1:num_layers-1,
+    @variable(m, absdiff[L=1:num_layers-1,
                         i=layer_verts[L], j=adj_list[i]] >= 0)
     for L in 1:num_layers-1
         for i in layer_verts[L]
             for j in adj_list[i]
-                @addConstraint(m, absdiff[L,i,j] >= x[L,i] - x[L+1,j])
-                @addConstraint(m, absdiff[L,i,j] >= x[L+1,j] - x[L,i])
+                @constraint(m, absdiff[L,i,j] >= x[L,i] - x[L+1,j])
+                @constraint(m, absdiff[L,i,j] >= x[L+1,j] - x[L,i])
                 if i > orig_n && j > orig_n
                     # Both dummy vertices
                     obj += 8*absdiff[L,i,j]
@@ -180,13 +180,13 @@ function _coord_ip{T}(adj_list::AdjList{T}, layers, layer_verts, orig_n, widths,
             end
         end
     end
-    @setObjective(m, Min, obj)
+    @objective(m, Min, obj)
 
     # Solve it...
     solve(m)
 
     # ... and mangle the solution into shape
-    x_sol = getValue(x)
+    x_sol = getvalue(x)
     locs_x = zeros(length(layers))
     for L in 1:num_layers
         for i in layer_verts[L]
